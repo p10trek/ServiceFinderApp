@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import {FormsModule} from "@angular/forms";
 import { AppComponent } from './app.component';
 import { ProvidersComponent } from './providers/providers.component';
+import { ServicesListComponent } from './servicesList/servicesList.component';
+import { ServicesListFormsComponent } from './servicesList/servicesList-forms/servicesList-forms.component';
 import { ProviderFormsComponent } from './providers/provider-forms/provider-forms.component';
 import { RouterModule } from '@angular/router';
 import { ClientsComponent } from './clients/clients.component';
@@ -21,7 +23,11 @@ import { AuthGuardService } from './shared/auth-guard.service';
 import { MenuComponent } from './menu/menu.component';
 import { MenuFormComponent } from './menu/menu-form/menu-form.component';
 import {StoreModule} from '@ngrx/store';
-import { simpleReducer} from './simple.reducer'
+import { User } from 'src/app/Model/User';
+import { simpleReducer } from './simple.reducer';
+import { StringReducer } from './string.reducer';
+import { userReducer } from './user.reducer';
+import { ServicesServiceList } from './shared/servicesList.service';
 export function tokenGetter(){
   return localStorage.getItem("jwt");
 }
@@ -36,6 +42,8 @@ export function tokenGetter(){
     OrdersFormsComponent,
     ServicesComponent,
     ServicesFormsComponent,
+    ServicesListComponent,
+    ServicesListFormsComponent,
     LoginComponent,
     LoginFormsComponent,
     HomeComponent,
@@ -47,12 +55,14 @@ export function tokenGetter(){
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    StoreModule.forRoot({isLogged:simpleReducer}),
+    StoreModule.forRoot({userName:StringReducer,user:userReducer}
+    ),
     RouterModule.forRoot([
       {path: 'providers', component: ProvidersComponent, canActivate:[AuthGuardService]},
       {path: 'clients', component: ClientsComponent},
       {path: 'services', component: ServicesComponent},
       {path: 'login', component: LoginComponent},
+      {path: 'servicesList', component: ServicesListComponent},
     ]),
     JwtModule.forRoot({
       config: {
@@ -67,3 +77,5 @@ export function tokenGetter(){
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
