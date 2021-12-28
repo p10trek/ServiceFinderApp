@@ -17,8 +17,11 @@ export class ServicesFormsComponent implements OnInit {
   onSubmit(form:NgForm){
     this.service.putService().subscribe(
       res=>{
-
+       console.log((<any>res).Message)
       },
     err=>{console.log(err);});
 
 }}
+
+
+

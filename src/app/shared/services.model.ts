@@ -1,6 +1,6 @@
 export class Services {
     serviceName: string;
-    price: string;
+    price: number;
     description: string;
-    serviceType: boolean;
+    serviceType: true;
 }

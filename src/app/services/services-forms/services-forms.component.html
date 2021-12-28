@@ -13,7 +13,7 @@
             <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" placeholder="Service type" name="serviceType" #serviceType="ngModel" [(ngModel)]="service.formData.serviceType"/>
             <label class="form-check-label" for="inlineCheckbox2">Is priced</label>     
         </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="service.formData.serviceType">
         <label>Price</label>
         <input type="number" class="form-control form-control-lg" placeholder="Price" name="price" #price="ngModel" [(ngModel)]="service.formData.price">
     </div>
