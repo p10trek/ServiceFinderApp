@@ -1,5 +1,6 @@
 import { Component, OnInit, Provider } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ProfileData } from 'src/app/shared/profile.model';
 import { ProfileService } from 'src/app/shared/profile.service';
 import { Register } from 'src/app/shared/register.model';
 @Component({
@@ -9,15 +10,15 @@ import { Register } from 'src/app/shared/register.model';
   ]
 })
 export class ProfileFormsComponent implements OnInit {
-provider:Register
-  constructor(public service:ProfileService) { }
 
+  constructor(public service:ProfileService) { }
+  profile$:ProfileData
   ngOnInit(): void {
     this.service.getProfile().subscribe(
       res=>{
-        //console.log((<any>res).data);
+        console.log((<any>res).data);
         console.log('here');
-        //this.provider = (<any>res).data;
+        this.profile$ = (<any>res).data;
       },   
        err=>{console.log(err);});
     }

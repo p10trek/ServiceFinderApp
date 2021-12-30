@@ -2,8 +2,8 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Login</label>
-            <div contenteditable="true">
-            <h2 type="text" class="form-control form-control-lg" placeholder="User login" name="Login" #Login="ngModel" [(ngModel)]="service.formData.Login">asdf</h2>
+            <div contenteditable="true" *ngIf="profile$">
+            <h2 type="text" class="form-control form-control-lg" placeholder="User login" name="Login" #Login="ngModel" [(ngModel)]="service.formData.Login">{{profile$.email}}</h2>
             </div>
         </div>
         <div class="form-group col-md-6">
