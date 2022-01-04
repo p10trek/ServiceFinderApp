@@ -7,7 +7,7 @@
     <div  *ngIf="true" class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" routerLink="/home">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">About us</a>
@@ -22,6 +22,7 @@
           <div class="dropdown-menu" *ngIf="user$ | async as u" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider"  routerLink="/profile" >Profile</a>
             <a class="dropdown-item" *ngIf="!u.isLogged" routerLink="/register">Register</a>
+            <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider"  routerLink="/timetable" >Add service</a>
             <!--<a class="dropdown-item" *ngIf="!u.isLogged" routerLink="/providers">Add your Car service</a>-->
             <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider"  routerLink="/services" >Add service</a>
             <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider"  routerLink="/servicesList" >Services</a>
@@ -33,12 +34,13 @@
     </div>
   </nav>
   <hr>
-  <div *ngIf="user$ | async as p">
+  <!--
+    <div *ngIf="user$ | async as p">
     <h2>{{p.userName}}</h2>
     <h2>{{p.isLogged}}</h2>
     <h2>{{p.isProvider}}</h2>
   </div>
-
+  -->
   <div class="container">
     <router-outlet></router-outlet>
   </div>
