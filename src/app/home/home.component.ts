@@ -17,21 +17,35 @@ export class HomeComponent implements OnInit {
   config.keyboard = false;
 }
   map : google.maps.Map
-  marker : google.maps.Marker
+
+  i : number = 0;
   public onMapReady(e) {
+    var mark = []
     this.map = e;
-    this.marker = new google.maps.Marker({
-      position: myLatlng,
-      map: this.map,
-      title: "Click to zoom",
-    });
-
-  this.marker.addListener("click", () => {
-    console.log('dziala');
-    this.modalService.open(this.content);
-
-  });
-}
+    const markers = [
+      {
+        position: new google.maps.LatLng(40.73061, 73.935242),
+        map: this.map,
+        title: "Marker 1"
+      },
+      {
+        position: new google.maps.LatLng(32.06485, 34.763226),
+        map: this.map,
+        title: "Marker 2"
+      }
+    ];
+    markers.forEach(markerInfo => {
+      var marker = new google.maps.Marker({
+        position: markerInfo.position,
+        map: markerInfo.map,
+        title: markerInfo.title,
+      });
+      marker.addListener("click", () => {
+        this.modalService.open(this.content);
+        console.log('Marker klikniety');
+        console.log(markerInfo.title);
+      });
+  });}
 
   isUserAuthenticated(){
     const token: string = localStorage.getItem("jwt")!;
@@ -48,4 +62,4 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 }
-const myLatlng = { lat: 51.1915270197080, lng: 15.2995830197045 };
+const myLatlng =[ { lat: 58.1915270197080, lng: 15.2995830197045, title: 'jeden' },{ lat: 57.1915270197080, lng: 15.2995830197045,title: 'dwa'  },{ lat: 57.1915270197080, lng: 19.2995830197045,title: 'trzy'  }];
