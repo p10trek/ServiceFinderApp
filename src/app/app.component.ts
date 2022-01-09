@@ -3,6 +3,7 @@ import {Store} from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as UserActions from 'src/app/user.actions'
 import { User } from 'src/app/Model/User';
+import { Carton } from './Model/Carton';
 
 interface AppState{
  // isLogged:boolean,
@@ -21,7 +22,7 @@ interface AppState{
     logged_out_user: User
 
   constructor(private store: Store<AppState>){
-    localStorage.removeItem("jwt");
+  localStorage.removeItem("jwt");
   console.log('app.component constructor');
   this.user$ = this.store.select('user')
   //this.userName$ = this.store.select('userName')

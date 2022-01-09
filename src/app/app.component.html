@@ -20,12 +20,12 @@
             Menu
           </a>
           <div class="dropdown-menu" *ngIf="user$ | async as u" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider"  routerLink="/profile" >Profile</a>
+            <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider" routerLink="/profile" >Profile</a>
             <a class="dropdown-item" *ngIf="!u.isLogged" routerLink="/register">Register</a>
-            <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider"  routerLink="/timetable" >Add service</a>
+            <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider" routerLink="/timetable" >Timetable</a>
             <!--<a class="dropdown-item" *ngIf="!u.isLogged" routerLink="/providers">Add your Car service</a>-->
-            <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider"  routerLink="/services" >Add service</a>
-            <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider"  routerLink="/servicesList" >Services</a>
+            <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider" routerLink="/services" >Add service</a>
+            <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider" routerLink="/servicesList" >Services</a>
             <a class="dropdown-item" *ngIf="u.isLogged"  (click)="logout()">Logout</a>
             <a class="dropdown-item" *ngIf="!u.isLogged" routerLink="/login">Login</a>
           </div>

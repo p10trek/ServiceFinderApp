@@ -30,7 +30,7 @@ export function userReducer(state: User = defaultState, action){
                   isProvider : action.payload.isProvider
               };
             default:
-                console.log('default action state returned')
+                console.log('default user action state returned')
                    return state;
             }
 }

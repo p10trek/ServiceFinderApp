@@ -26,9 +26,9 @@
         <div class="col-md-4 text-center">
             <h3 class="mt-0">{{ viewDate | calendarSchedulerDate:(view + 'ViewTitle'):locale:weekStartsOn:excludeDays:viewDays:startsWithToday }}</h3>
             <select #viewDayOptionSelect1 class="form-control d-none d-md-block d-xl-none" [ngModel]="viewDays" (change)="viewDaysOptionChanged(viewDayOptionSelect1.value)">
-                <option  [value]=1>Un giorno</option>
-                <option [value]=3>Tre giorni</option>
-                <option [value]=7>Una settimana</option>
+                <option  [value]=1>Today</option>
+                <option [value]=3>Three Days</option>
+                <option [value]=7>Week</option>
             </select>
         </div>
         <div class="col-md-4 text-right">
@@ -52,7 +52,7 @@
                                 (viewDateChange)="dateOrViewChanged()">
                             <span class="valign-center">
                                 <i title="Precedente"
-                                    class="material-icons md-18">keyboard_arrow_left</i>
+                                    class="material-icons md-18">Previous</i>
                             </span>
                         </button>
                         <button type="button" class="btn btn-light"
@@ -74,7 +74,7 @@
                                 (viewDateChange)="dateOrViewChanged()">
                             <span class="valign-center">
                                 <i title="Successivo"
-                                    class="material-icons md-18">keyboard_arrow_right</i>
+                                    class="material-icons md-18">Next</i>
                             </span>
                         </button>
                     </div>
@@ -113,3 +113,23 @@
         </calendar-scheduler-view>
     </div>
 </div>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <form action="/action_page.php">
+                <label for="birthdaytime">Change date of end service</label><br>
+                <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+            </form>
+      </div>
+      </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button>
+    </div>
+  
+  </ng-template>

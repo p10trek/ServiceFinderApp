@@ -1,8 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { Carton } from '../Model/Carton';
+import { GetProvidersView,Datum, Daum} from '../shared/home.model';
+import { HomeService } from '../shared/home.serice';
+import * as CartActions from 'src/app/cart.actions'
+import { DOCUMENT } from '@angular/common';
+interface CartState{
+  // isLogged:boolean,
+   //userName:string, 
 
+   cart:Carton
+ }
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -12,40 +24,22 @@ export class HomeComponent implements OnInit {
   @ViewChild('content') content: any;
   latitude = 51.1915270197085;
   longitude = 15.2995830197085;
-  constructor(private router: Router, private jwtHelper: JwtHelperService,config: NgbModalConfig, private modalService: NgbModal) {     
+  remButton: HTMLElement;
+  constructor(@Inject(DOCUMENT) document,private store: Store<CartState>,private router: Router, private jwtHelper: JwtHelperService,config: NgbModalConfig, private modalService: NgbModal,public service:HomeService) {     
   config.backdrop = 'static';
   config.keyboard = false;
+  this.cart$ = this.store.select('cart')
 }
-  map : google.maps.Map
 
-  i : number = 0;
+getProvidersView : Datum[]
+getProviderServices : Daum[]
+map : google.maps.Map;
+choosedMarker : string;
+isChecked:boolean;
+cart$ : Observable<Carton>
   public onMapReady(e) {
-    var mark = []
     this.map = e;
-    const markers = [
-      {
-        position: new google.maps.LatLng(40.73061, 73.935242),
-        map: this.map,
-        title: "Marker 1"
-      },
-      {
-        position: new google.maps.LatLng(32.06485, 34.763226),
-        map: this.map,
-        title: "Marker 2"
-      }
-    ];
-    markers.forEach(markerInfo => {
-      var marker = new google.maps.Marker({
-        position: markerInfo.position,
-        map: markerInfo.map,
-        title: markerInfo.title,
-      });
-      marker.addListener("click", () => {
-        this.modalService.open(this.content);
-        console.log('Marker klikniety');
-        console.log(markerInfo.title);
-      });
-  });}
+  }
 
   isUserAuthenticated(){
     const token: string = localStorage.getItem("jwt")!;
@@ -59,7 +53,37 @@ export class HomeComponent implements OnInit {
   logOut(){
     localStorage.removeItem("jwt")
   }
-  ngOnInit(): void {
+  ngOnInit(){
+    (this.service.getProviders()).subscribe(
+      res=>{
+        this.getProvidersView =(<any>res).data;
+        console.log((<any>res).message)
+        this.getProvidersView.forEach(provider=>{
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(provider.lat, provider.lng),
+            map: this.map,
+            title: provider.name
+          });
+            marker.addListener("click", () => {
+            (
+              this.service.getProviderServices(provider.id)).subscribe(res=>{
+              this.getProviderServices = (<any>res).data
+              console.log((<any>res).Messaage)
+            })
+            this.modalService.open(this.content);
+            console.log('Marker klikniety');
+            console.log(provider.name);
+          }); 
+        });
+      },
+    err=>{console.log(err);});
+
   }
+
+  addToCart(e,itemId:string){
+    if(e.target.checked)
+    this.store.dispatch(new CartActions.addToCart(itemId))
+    else
+    this.store.dispatch(new CartActions.delFromCart(itemId))
+  }  
 }
-const myLatlng =[ { lat: 58.1915270197080, lng: 15.2995830197045, title: 'jeden' },{ lat: 57.1915270197080, lng: 15.2995830197045,title: 'dwa'  },{ lat: 57.1915270197080, lng: 19.2995830197045,title: 'trzy'  }];

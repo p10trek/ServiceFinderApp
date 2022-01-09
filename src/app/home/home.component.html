@@ -1,3 +1,11 @@
+<script>
+  function disableButton(param) {
+    var str = param;
+      console.log('wylaczanie:' +str);
+      var btn = document.getElementById(param);
+      btn.disabled = true;
+  }
+</script>
 <agm-map (mapReady)="onMapReady($event)" [latitude]="latitude" [longitude]="longitude">
 <!--<agm-marker [latitude]="latitude" [longitude]="longitude">
 </agm-marker>-->
@@ -10,9 +18,37 @@
     </button>
   </div>
   <div class="modal-body">
-    <p>Hello, World!</p>
-  </div>
+      <div class="container">
+        <table class="table table-striped table-responsive-md btn-table">
+          <thead>
+              <tr>
+                  <th>
+                      Service Name
+                  </th>
+                  <th>
+                      Description
+                  </th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let service of getProviderServices ;let i=index;">
+                  <td><span>{{service.serviceName}}</span></td>
+                  <td><span>{{service.description}}</span></td>
+                  <td *ngIf="service.isPriced==false" ><span>For valuation</span></td>
+                  <td *ngIf="service.isPriced==true" ><span>{{service.price}}</span></td>
+                  <td>
+             
+                    <input type="checkbox" name="{{[i]}}" id="{{[i]}}" (change)="addToCart($event,service.id)">
+             
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+    </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button>
   </div>
+
 </ng-template>
+

@@ -27,6 +27,7 @@ import {
 } from 'angular-calendar';
 
 import { AppService } from 'src/app/timetable/timetable-forms/app.services';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-timetable-forms',
@@ -39,7 +40,7 @@ import { AppService } from 'src/app/timetable/timetable-forms/app.services';
 })
 export class TimetableFormsComponent implements OnInit {
     title: string = 'Angular Calendar Scheduler Demo';
-
+    @ViewChild('content') content: any;
     CalendarView = CalendarView;
 
     view: CalendarView = CalendarView.Week;
@@ -87,7 +88,7 @@ export class TimetableFormsComponent implements OnInit {
 
     @ViewChild(CalendarSchedulerViewComponent) calendarScheduler: CalendarSchedulerViewComponent;
 
-    constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService, private dateAdapter: DateAdapter) {
+    constructor(@Inject(LOCALE_ID) locale: string, private appService: AppService, private dateAdapter: DateAdapter, private modalService: NgbModal) {
         this.locale = locale;
 
         // this.dayModifier = ((day: SchedulerViewDay): void => {
@@ -165,6 +166,7 @@ export class TimetableFormsComponent implements OnInit {
     }
 
     segmentClicked(action: string, segment: SchedulerViewHourSegment): void {
+        console.log('zdarzenie zacznie sie:'+ segment.date);
         console.log('segmentClicked Action', action);
         console.log('segmentClicked Segment', segment);
     }
@@ -172,6 +174,8 @@ export class TimetableFormsComponent implements OnInit {
     eventClicked(action: string, event: CalendarSchedulerEvent): void {
         console.log('eventClicked Action', action);
         console.log('eventClicked Event', event);
+        this.modalService.open(this.content);
+
     }
 
     eventTimesChanged({ event, newStart, newEnd, type }: SchedulerEventTimesChangedEvent): void {

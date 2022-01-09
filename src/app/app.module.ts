@@ -26,6 +26,7 @@ import {StoreModule} from '@ngrx/store';
 import { User } from 'src/app/Model/User';
 import { simpleReducer } from './simple.reducer';
 import { StringReducer } from './string.reducer';
+import { cartReducer } from './cart.reducer'
 import { userReducer } from './user.reducer';
 import { ServicesServiceList } from './shared/servicesList.service';
 import { ProfileComponent } from './profile/profile.component';
@@ -78,7 +79,7 @@ export function tokenGetter(){
     }),
     SchedulerModule.forRoot({ locale: 'en', headerDateFormat: 'daysRange' }),
 
-    StoreModule.forRoot({userName:StringReducer,user:userReducer}
+    StoreModule.forRoot({userName:StringReducer,user:userReducer,cart:cartReducer}
     ),
     RouterModule.forRoot([
       {path: 'home', component: HomeComponent},
