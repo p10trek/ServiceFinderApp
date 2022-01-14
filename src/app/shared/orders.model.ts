@@ -11,5 +11,18 @@ export class orders {
     success: boolean;
     message: string;
 }
+export class FreeTermsBetween {
+    freeTermStart: Date;
+    freeTermEnd: Date;
+}
 
+export class FreeTerms {
+    freeTermsBetween: FreeTermsBetween[];
+    freeTermFrom: Date;
+}
+export class FreeTermsView {
+    data: FreeTerms;
+    success: boolean;
+    message: string;
+}
 

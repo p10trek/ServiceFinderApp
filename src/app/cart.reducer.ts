@@ -1,13 +1,14 @@
 import * as CartActions from './cart.actions';
 import { createReducer, on } from '@ngrx/store';
-import { ADD_TO_CART,DEL_FROM_CART,RESET_CART } from './cart.actions';
+import { ADD_TO_CART,DEL_FROM_CART,RESET_CART,SET_CART_PROVIDER } from './cart.actions';
 import { Carton } from './Model/Carton';
 import { EMPTY } from 'rxjs';
 import { createIsExtensionOrMonitorPresent } from '@ngrx/store-devtools/src/instrument';
 export type Action = CartActions.All;
 
 const defaultCartState: Carton={
-    cartItem : []
+    cartItem : [],
+    provider : ''
 }
 
 export function cartReducer(state : Carton = defaultCartState, action){
@@ -27,6 +28,12 @@ export function cartReducer(state : Carton = defaultCartState, action){
                     return item !== action.payload // return all the items not matching the action.id
                   })
             };
+        case SET_CART_PROVIDER:
+                console.log('Provider was set')
+                return{
+                    ...state,
+                    provider : action.payload 
+                }; 
         case RESET_CART:
              console.log('Cart was emptied')
              return{

@@ -10,11 +10,19 @@ export class OrdersService {
  });
 
   constructor(private http : HttpClient) {}
-  readonly baseURL = 'https://localhost:44309/GetProviderOrders'
+  readonly getProvURL = 'https://localhost:44309/GetProviderOrders'
+  readonly getFreeTermsURL = 'https://localhost:44309/GetFreeTerms'
 
   getProviderOrders(providerId:string){
       let queryParams = new HttpParams();
       queryParams = queryParams.append("providerId",providerId);
-      return this.http.get(this.baseURL,{headers:this.reqHeaders, params:queryParams});
+      return this.http.get(this.getProvURL,{headers:this.reqHeaders, params:queryParams});
+  }
+
+  getFreeTerms(providerId:string,servDuration:number){
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("providerId",providerId);
+    queryParams = queryParams.append("serviceDuration",servDuration);
+    return this.http.get(this.getFreeTermsURL,{headers:this.reqHeaders, params:queryParams});
   }
 }

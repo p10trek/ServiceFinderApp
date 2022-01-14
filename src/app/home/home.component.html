@@ -47,7 +47,25 @@
     </div>
     </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button>
+    <button type="button" class="btn btn-outline-dark" (click)="openTimeTable($event)">Save</button>
+  </div>
+
+</ng-template>
+
+<ng-template #timeTable let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <app-timetable-forms></app-timetable-forms>
+</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="openTimeTable($event)">Save</button>
   </div>
 
 </ng-template>

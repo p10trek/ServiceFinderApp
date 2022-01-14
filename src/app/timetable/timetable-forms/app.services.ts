@@ -6,7 +6,7 @@ import {
     CalendarSchedulerEventStatus,
     CalendarSchedulerEventAction
 } from 'angular-calendar-scheduler';
-import { Datum, orders } from 'src/app/shared/orders.model';
+import { Datum, FreeTermsBetween, FreeTermsView, orders } from 'src/app/shared/orders.model';
 import {
     addDays,
     startOfHour,
@@ -18,40 +18,91 @@ import {
     startOfDay,
     setMinutes
 } from 'date-fns';
-
+import { Store } from '@ngrx/store';
+import { Carton } from "src/app/Model/Carton";
+import { Observable } from "rxjs";
+import * as CartActions from 'src/app/cart.actions'
+import { User } from 'src/app/Model/User';
+import { Data } from "@angular/router";
+interface CartState{
+    cart:Carton
+  }
+interface AppState{
+    user:User
+}
 @Injectable()
 
 export class AppService {
     http: HttpClient;
     orders: Datum[];
+    freeTerms : FreeTermsBetween[]
+    freeTermsFrom : Data;
     events : any = [ ];
-  
-    constructor(  public service:OrdersService) {}
-    getEvents(actions: CalendarSchedulerEventAction[]): Promise<CalendarSchedulerEvent[]> 
+    user$ : Observable<User>;
+    constructor(  public service:OrdersService,private store: Store<CartState>, private Userstore:Store<AppState>) {
+        this.cart$ = this.store.select('cart');
+        this.user$ = this.Userstore.select('user');
+    }
+    cart$ : Observable<Carton>
+    getEvents(actions: CalendarSchedulerEventAction[] ): Promise<CalendarSchedulerEvent[]> 
     {
-
-        this.service.getProviderOrders('5B362B27-A784-46A1-A923-9F357074C08F')
-        .subscribe(
-            res=>
-                { 
-                    console.log('asdfasdf');
-                    console.log((<any>res).message)
-                    this.orders = (<any>res).data;
-                   
-                    this.orders.forEach(order=>
-                    {
-                        this.events.push(   <CalendarSchedulerEvent>{
-                            id: order.id,
-                            start: new Date(order.start),
-                            end:  new Date(order.end),
-                            title: order.title,
-                            actions:actions,
-                            isClickable: true
-                        });
-                    });
-                    //console.log(this.orders[0].title);
-                });
-        return new Promise(resolve => setTimeout(() => resolve(this.events), 3000));    
+        //this.store.dispatch(new CartActions.resetCart())
+        this.events= []
+        var providerID = ''
+        this.cart$.subscribe(r=> providerID = r.provider);
+        var isProvider = false;
+        this.user$.subscribe(u=>isProvider = u.isProvider)
+        //if(<boolean>isProvider==true){
+        // this.service.getProviderOrders(providerID)
+        // .subscribe(
+        //     res=>
+        //         { 
+        //             console.log('Loading Orders for provider');
+        //             console.log((<any>res).message)
+        //             this.orders = (<any>res).data;
+        //             for (var order of this.orders){
+        //                 this.events.push(   <CalendarSchedulerEvent>{
+        //                     id: order.id,
+        //                     start: new Date(order.start),
+        //                     end:  new Date(order.end),
+        //                     title: order.title,
+        //                     actions:actions,
+        //                     isClickable: true
+        //                 });
+        //             }
+        //         });
+        //     }
+        //     else{
+        //         this.service.getFreeTerms(providerID,4)
+        //         .subscribe(
+        //             res=>
+        //                 {
+        //                     console.log('Loading free terms for user');
+        //                     console.log((<any>res).message)
+        //                     this.freeTerms = (<any>res).data.freeTermsBetween;
+                            
+        //                     for (var order of this.freeTerms){
+        //                         this.events.push(<CalendarSchedulerEvent>{
+        //                             start: new Date(order.freeTermStart),
+        //                             end:  new Date(order.freeTermEnd),
+        //                             actions:actions,
+        //                             isClickable: true,
+        //                             color: { primary: '#669900', secondary: '#669911' },
+        //                         });
+        //                     }
+        //                     const currentDate = new Date();
+        //                     currentDate.setMonth(currentDate.getMonth()+1)
+        //                     currentDate.toISOString().slice(0,10);
+        //                     this.events.push(<CalendarSchedulerEvent>{
+        //                         start: new Date((<any>res).data.freeTermFrom),
+        //                         end:  new Date(currentDate.toISOString().slice(0,10)),
+        //                         actions:actions,
+        //                         isClickable: true,
+        //                         color: { primary: '#669900', secondary: '#669911' },
+        //                     });
+        //                 });
+        // }
+        return new Promise(resolve => setTimeout(() => resolve(this.events), 1));    
     }
         // [
         //     <CalendarSchedulerEvent>{

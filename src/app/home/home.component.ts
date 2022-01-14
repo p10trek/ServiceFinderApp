@@ -22,6 +22,7 @@ interface CartState{
 })
 export class HomeComponent implements OnInit {
   @ViewChild('content') content: any;
+  @ViewChild('timeTable') timeTable: any;
   latitude = 51.1915270197085;
   longitude = 15.2995830197085;
   remButton: HTMLElement;
@@ -68,6 +69,7 @@ cart$ : Observable<Carton>
             (
               this.service.getProviderServices(provider.id)).subscribe(res=>{
               this.getProviderServices = (<any>res).data
+              this.store.dispatch(new CartActions.setProvider(provider.id))
               console.log((<any>res).Messaage)
             })
             this.modalService.open(this.content);
@@ -78,6 +80,10 @@ cart$ : Observable<Carton>
       },
     err=>{console.log(err);});
 
+  }
+  openTimeTable(e){
+      console.log('otwieram termianrz!!!:');
+      this.modalService.open(this.timeTable, { size: 'lg', backdrop: 'static' });
   }
 
   addToCart(e,itemId:string){
