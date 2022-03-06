@@ -20,7 +20,7 @@
             Menu
           </a>
           <div class="dropdown-menu" *ngIf="user$ | async as u" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider" routerLink="/profile" >Profile</a>
+            <a class="dropdown-item" *ngIf="u.isLogged" routerLink="/profile" >Profile</a>
             <a class="dropdown-item" *ngIf="!u.isLogged" routerLink="/register">Register</a>
             <a class="dropdown-item" *ngIf="u.isLogged && u.isProvider" routerLink="/timetable" >Timetable</a>
             <!--<a class="dropdown-item" *ngIf="!u.isLogged" routerLink="/providers">Add your Car service</a>-->

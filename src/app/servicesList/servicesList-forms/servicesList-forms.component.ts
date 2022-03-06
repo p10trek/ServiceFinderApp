@@ -14,6 +14,12 @@ export class ServicesListFormsComponent implements OnInit {
   constructor(public service:ServicesServiceList) { }
   servicesList:Daum[]
   ngOnInit(): void {
+    this.service.getServices().subscribe(
+      res=>{
+        this.servicesList = (<any>res).data
+       console.log((<any>res).message)
+      },
+    err=>{console.log(err);});
   }
   onSubmit(form:NgForm){
     this.service.getServices().subscribe(

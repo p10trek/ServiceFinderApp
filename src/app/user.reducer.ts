@@ -7,7 +7,8 @@ export type Action = UserActions.All;
 const defaultState: User={
     isLogged: false,
     userName: 'Guest',
-    isProvider: false
+    isProvider: false,
+    providerID: ''
 }
 
 export function userReducer(state: User = defaultState, action){
@@ -19,7 +20,8 @@ export function userReducer(state: User = defaultState, action){
                 ...state,
                 userName : action.payload.userName,
                 isLogged : action.payload.isLogged,
-                isProvider : action.payload.isProvider
+                isProvider : action.payload.isProvider,
+                providerID : action.payload.providerID
               };
         case LOGOUT:
             console.log("User " + state.userName + 'logout')
@@ -27,7 +29,8 @@ export function userReducer(state: User = defaultState, action){
                   ...state,
                   userName : action.payload.userName,
                   isLogged : action.payload.isLogged,
-                  isProvider : action.payload.isProvider
+                  isProvider : action.payload.isProvider,
+                  providerID : action.payload.providerID
               };
             default:
                 console.log('default user action state returned')

@@ -4,7 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Carton } from '../Model/Carton';
+import { Carton,CartItem } from '../Model/Carton';
 import { GetProvidersView,Datum, Daum} from '../shared/home.model';
 import { HomeService } from '../shared/home.serice';
 import * as CartActions from 'src/app/cart.actions'
@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
 
 getProvidersView : Datum[]
 getProviderServices : Daum[]
+cartItem : CartItem;
 map : google.maps.Map;
 choosedMarker : string;
 isChecked:boolean;
@@ -84,12 +85,19 @@ cart$ : Observable<Carton>
   openTimeTable(e){
       console.log('otwieram termianrz!!!:');
       this.modalService.open(this.timeTable, { size: 'lg', backdrop: 'static' });
+      
   }
 
-  addToCart(e,itemId:string){
+  closeModals(e){
+    //todo backup
+  }
+
+  addToCart(e,itemId:string,duration:number){
+    this.cartItem.cartItem = itemId;
+    this.cartItem.duration = duration;
     if(e.target.checked)
-    this.store.dispatch(new CartActions.addToCart(itemId))
+    this.store.dispatch(new CartActions.addToCart(this.cartItem))
     else
-    this.store.dispatch(new CartActions.delFromCart(itemId))
+    this.store.dispatch(new CartActions.delFromCart(this.cartItem))
   }  
 }

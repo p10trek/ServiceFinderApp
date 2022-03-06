@@ -27,3 +27,6 @@ agm-map {
   font-weight: 900;
   color: #202020;
  }
+ .myCustomModalClass .modal-dialog {
+  max-width: 565px;
+}

@@ -11,7 +11,7 @@ import { User } from 'src/app/Model/User';
   providedIn: 'root'
 })
 export class ServicesService {
-  reqHeaders = new HttpHeaders({
+  private reqHeaders = new HttpHeaders({
    'Content-Type': 'application/json',
    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
    

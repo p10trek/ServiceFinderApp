@@ -1,51 +1,67 @@
 <script>
   function disableButton(param) {
     var str = param;
-      console.log('wylaczanie:' +str);
-      var btn = document.getElementById(param);
-      btn.disabled = true;
+    console.log('wylaczanie:' + str);
+    var btn = document.getElementById(param);
+    btn.disabled = true;
   }
 </script>
 <agm-map (mapReady)="onMapReady($event)" [latitude]="latitude" [longitude]="longitude">
-<!--<agm-marker [latitude]="latitude" [longitude]="longitude">
+  <!--<agm-marker [latitude]="latitude" [longitude]="longitude">
 </agm-marker>-->
 </agm-map>
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
+<ng-template class="col-md-12" #content let-c="close" let-d="dismiss">
+  <div class="modal-header" class="col-md-12">
+    <div class="d-flex justify-content-between">
+      <h4 class="modal-title ml-5" id="modal-basic-title">Choose services from list</h4>
+      <button type="button" class="close" id="closeModalButton1" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
   </div>
   <div class="modal-body">
-      <div class="container">
-        <table class="table table-striped table-responsive-md btn-table">
-          <thead>
-              <tr>
-                  <th>
-                      Service Name
-                  </th>
-                  <th>
-                      Description
-                  </th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr *ngFor="let service of getProviderServices ;let i=index;">
-                  <td><span>{{service.serviceName}}</span></td>
-                  <td><span>{{service.description}}</span></td>
-                  <td *ngIf="service.isPriced==false" ><span>For valuation</span></td>
-                  <td *ngIf="service.isPriced==true" ><span>{{service.price}}</span></td>
-                  <td>
-             
-                    <input type="checkbox" name="{{[i]}}" id="{{[i]}}" (change)="addToCart($event,service.id)">
-             
-                  </td>
-              </tr>
-          </tbody>
+    <div class="container">
+      <table class="table table-striped table-responsive-md btn-table">
+        <thead>
+          <tr>
+            <th>
+              Index
+            </th>
+            <th>
+              Service Name
+            </th>
+            <th>
+              Description
+            </th>
+            <th>
+              Duration
+            </th>
+            <th>
+              Cost
+            </th>
+            <th>
+              Reservation
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let service of getProviderServices ;let i=index;">
+            <td><span>{{i}}</span></td>
+            <td><span>{{service.serviceName}}</span></td>
+            <td><span>{{service.description}}</span></td>
+            <td><span>{{service.duration}}</span></td>
+            <td *ngIf="service.isPriced==false"><span>For valuation</span></td>
+            <td *ngIf="service.isPriced==true"><span>{{service.price}}</span></td>
+            <td>
+
+              <input type="checkbox" name="{{[i]}}" id="{{[i]}}" (change)="addToCart($event,service.id,service.duration)">
+
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
-    </div>
+  </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="openTimeTable($event)">Save</button>
   </div>
@@ -55,18 +71,17 @@
 <ng-template #timeTable let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button type="button" class="close" aria-label="Close" id="closeModalButton2" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <div class="container">
       <app-timetable-forms></app-timetable-forms>
-</div>
+    </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="openTimeTable($event)">Save</button>
+    <button type="button" class="btn btn-outline-dark" (click)="closeModals($event)">Save</button>
   </div>
 
 </ng-template>
-

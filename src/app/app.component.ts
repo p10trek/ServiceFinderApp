@@ -31,7 +31,7 @@ interface AppState{
   //this.asdfd = false;
   }
   logout(){
-    this.logged_out_user = {isLogged : false, userName : 'Guest', isProvider : false}
+    this.logged_out_user = {isLogged : false, userName : 'Guest', isProvider : false, providerID : ''}
     this.store.dispatch(new UserActions.logout(this.logged_out_user))
     localStorage.removeItem("jwt");
     }

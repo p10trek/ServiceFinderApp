@@ -26,6 +26,7 @@ user$ : Observable<User>;
 isProvider : boolean
 userName : string;
 logged_user : User;
+providerId : string;
   constructor(private router: Router, public service:LoginService, private store: Store<AppState>) {
   this.user$ = store.select('user');
     //this.userName$ = store.select('userName');
@@ -39,10 +40,11 @@ logged_user : User;
       console.log(token);
       this.userName = (<any>response).login;
       this.isProvider =(<any>response).isProvider;
+      this.providerId = (<any>response).providerId;
       localStorage.setItem("jwt", token);
       this.invalidLogin = false;
       this.router.navigate(["/"]);
-      this.logged_user = {isLogged : true, userName : this.userName, isProvider : this.isProvider}
+      this.logged_user = {isLogged : true, userName : this.userName, isProvider : this.isProvider, providerID : this.providerId}
       //this.store.dispatch(new StringActions.setName(this.userName));
       this.store.dispatch(new UserActions.isLogged(this.logged_user));
       //this.user$ = this.store.select('loggedUser')

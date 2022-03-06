@@ -1,4 +1,4 @@
-<form novalidate #form="ngForm" (submit)="onSubmit(form)">
+<!-- <form novalidate #form="ngForm" (submit)="onSubmit(form)">
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>
@@ -98,57 +98,63 @@
 
 
 
+ -->
 
 
-
-    <div class="container rounded bg-white mt-5 mb-5">
-        <div class="row">
-            <div class="col-md-3 border-right">
-                <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
-                        width="150px"
-                        src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
-                        class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span>
-                    </span></div>
-            </div>
-            <div class="col-md-9 border-right">
-                <div class="p-3 py-5">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="text-right">Profile Settings</h4>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control"
-                                placeholder="first name" value=""></div>
-                        <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control"
-                                value="" placeholder="surname"></div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text"
-                                class="form-control" placeholder="enter phone number" value=""></div>
-                        <div class="col-md-12"><label class="labels">Address Line 1</label><input type="text"
-                                class="form-control" placeholder="enter address line 1" value=""></div>
-                        <div class="col-md-12"><label class="labels">Address Line 2</label><input type="text"
-                                class="form-control" placeholder="enter address line 2" value=""></div>
-                        <div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control"
-                                placeholder="enter address line 2" value=""></div>
-                        <div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control"
-                                placeholder="enter address line 2" value=""></div>
-                        <div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control"
-                                placeholder="enter address line 2" value=""></div>
-                        <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control"
-                                placeholder="enter email id" value=""></div>
-                        <div class="col-md-12"><label class="labels">Education</label><input type="text"
-                                class="form-control" placeholder="education" value=""></div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control"
-                                placeholder="country" value=""></div>
-                        <div class="col-md-6"><label class="labels">State/Region</label><input type="text"
-                                class="form-control" value="" placeholder="state"></div>
-                    </div>
-                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save
-                            Profile</button></div>
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
+                    width="150px"
+                    src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
+                    class="font-weight-bold"></span><span class="text-black-50"></span><span>
+                </span></div>
+        </div>
+        <div class="col-md-9 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4>
                 </div>
+                <div *ngIf="profile$ | async as u" class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Email ID</label><input type="text" class="form-control"
+                            value="u.email" placeholder="User login" name="Login" #Login="ngModel"
+                            [(ngModel)]="service.formData.Login" value="{{u.email}}"></div>
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control"
+                            value="{{u.name}}" placeholder="User name" name="Name" #Name="ngModel"
+                            [(ngModel)]="service.formData.Name"></div>
+                    <div class="col-md-6"><label class="labels">Password</label><input type="password"
+                            class="form-control" placeholder="User password" name="Password" #Password="ngModel"
+                            [(ngModel)]="service.formData.Password"></div>
+                    <div class="col-md-6"><label class="labels">New password</label><input type="password"
+                            class="form-control" placeholder="User password" name="Password" #Password="ngModel"
+                            [(ngModel)]="service.formData.Password"></div>
+                    <div class="col-md-6"><label class="labels">New password</label><input type="password"
+                            class="form-control" placeholder="User password" name="Password" #Password="ngModel"
+                            [(ngModel)]="service.formData.Password"></div>
+                </div>
+                <div *ngIf="profile$ | async as u" class="row mt-3">
+                    <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">Mobile
+                            Number</label><input type="text" value="{{u.phone}}" class="form-control"
+                            placeholder="User phone" name="Phone" #Phone="ngModel" [(ngModel)]="service.formData.Phone">
+                    </div>
+                    <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">City</label><input
+                            type="text" value="u.city | async" class="form-control" placeholder="City" name="City"
+                            #City="ngModel" [(ngModel)]="service.formData.City"></div>
+                    <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">Street</label><input
+                            type="text" class="form-control" placeholder="Street" name="Street" #Street="ngModel"
+                            [(ngModel)]="service.formData.Street"></div>
+                    <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">Postcode</label><input
+                            type="text" class="form-control" value="{{u.postalCode}}" placeholder="PostalCode"
+                            name="PostalCode" #PostalCode="ngModel" [(ngModel)]="service.formData.PostalCode"></div>
+                    <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">Number</label><input
+                            type="text" class="form-control" placeholder="enter address line 2" value="{{u.number}}">
+                    </div>
+
+
+                </div>
+                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save
+                        Profile</button></div>
             </div>
         </div>
     </div>
-
+</div>

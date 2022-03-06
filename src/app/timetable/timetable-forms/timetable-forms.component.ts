@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, LOCALE_ID, HostListener, ViewChild } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, throwIfEmpty } from 'rxjs';
 import { OrdersService } from 'src/app/shared/orders.service';
-import { Datum, FreeTermsBetween, FreeTermsView, orders } from 'src/app/shared/orders.model';
+import { Datum, FreeTermsBetween, FreeTermsView, Order, Orders, orders } from 'src/app/shared/orders.model';
 import {
     endOfDay,
     addMonths
@@ -34,9 +34,10 @@ import { User } from 'src/app/Model/User';
 
 import { AppService } from 'src/app/timetable/timetable-forms/app.services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Carton } from 'src/app/Model/Carton';
+import { CartItem, Carton } from 'src/app/Model/Carton';
 import { DatePipe } from '@angular/common'
 import * as moment from 'moment';
+import { NgForm } from '@angular/forms';
 
 interface CartState{
     cart:Carton
@@ -55,40 +56,46 @@ interface AppState{
 })
 
 export class TimetableFormsComponent implements OnInit {
-    title: string = 'Angular Calendar Scheduler Demo';
-    @ViewChild('content') content: any;
-    CalendarView = CalendarView;
+     title: string = 'Angular Calendar Scheduler Demo';
+    @ViewChild('content')  content: any;
+     CalendarView = CalendarView;
 
-    view: CalendarView = CalendarView.Week;
-    viewDate: Date = new Date();
-    viewDays: number = 3;
-    refresh: Subject<void> = new Subject();
-    locale: string = 'en';
-    hourSegments: number= 4;
-    weekStartsOn: number = 1;
-    startsWithToday: boolean = true;
-    activeDayIsOpen: boolean = true;
-    excludeDays: number[] = []; // [0];
-    dayStartHour: number = 6;
-    dayEndHour: number = 22;
+     view: CalendarView = CalendarView.Week;
+     viewDate: Date = new Date();
+     viewDays: number = 3;
+     refresh: Subject<void> = new Subject();
+     locale: string = 'en';
+     hourSegments: number= 4;
+     weekStartsOn: number = 1;
+     startsWithToday: boolean = true;
+     activeDayIsOpen: boolean = true;
+     excludeDays: number[] = []; // [0];
+     dayStartHour: number = 6;
+     dayEndHour: number = 22;
 
-    minDate: Date = new Date();
-    maxDate: Date = endOfDay(addMonths(new Date(), 1));
-    dayModifier: Function;
-    hourModifier: Function;
-    segmentModifier: Function;
-    eventModifier: Function;
-    prevBtnDisabled: boolean = false;
-    nextBtnDisabled: boolean = false;
-    freeTerms : FreeTermsBetween[]
-    actions: CalendarSchedulerEventAction[] = [
+     minDate: Date = new Date();
+     maxDate: Date = endOfDay(addMonths(new Date(), 1));
+     dayModifier: Function;
+     hourModifier: Function;
+     segmentModifier: Function;
+     eventModifier: Function;
+     prevBtnDisabled: boolean = false;
+     nextBtnDisabled: boolean = false;
+     freeTerms : FreeTermsBetween[]
+     actions: CalendarSchedulerEventAction[] = [
         {
             when: 'enabled',
             label: '<span class="valign-center"><i class="material-icons md-18 md-red-500">cancel</i></span>',
             title: 'Delete',
             onClick: (event: CalendarSchedulerEvent): void => {
                 console.log('Pressed action \'Delete\' on event ' + event.id);
+                this.service.deleteOrder(event.id).subscribe(
+                    res=>
+                        {
+                            console.log((<any>res).message);
+                        })    
             }
+
         },
         {
             when: 'cancelled',
@@ -99,12 +106,12 @@ export class TimetableFormsComponent implements OnInit {
             }
         }
     ];
-    cart$ : Observable<Carton>;
-    user$ : Observable<User>;
-    events: CalendarSchedulerEvent[];
-
-    @ViewChild(CalendarSchedulerViewComponent) calendarScheduler: CalendarSchedulerViewComponent;
-    datepipe: any;
+     cart$ : Observable<Carton>;
+     user$ : Observable<User>;
+     events: CalendarSchedulerEvent[];
+     serviceIdToMove : string;
+    @ViewChild(CalendarSchedulerViewComponent)  calendarScheduler: CalendarSchedulerViewComponent;
+     datepipe: any;
 
     constructor(@Inject(LOCALE_ID) locale: string,private store: Store<CartState>, private Userstore:Store<AppState>, public service:OrdersService,private appService: AppService, private dateAdapter: DateAdapter, private modalService: NgbModal) {
         //this.store.dispatch(new CartActions.resetCart())
@@ -116,8 +123,11 @@ export class TimetableFormsComponent implements OnInit {
         this.cart$.subscribe(r=> providerID = r.provider);
         var isProvider = false;
         this.user$.subscribe(u=>isProvider = u.isProvider);
+        var cartItems = cartItems;
+        this.cart$.subscribe(r=> cartItems = r.cartItems);
+        var servDuration = 6;//cartItems.map(o=>o.duration).reduce((a,c)=>a+c);
         if(<boolean>isProvider==false){
-        this.service.getFreeTerms(providerID,4)
+        this.service.getFreeTerms(providerID,servDuration)
         .subscribe(
               res=>
                 {
@@ -127,7 +137,6 @@ export class TimetableFormsComponent implements OnInit {
                     console.log(this.freeTerms);
                 });
                
-            
             
             console.log('Loading free terms for user complete');
 
@@ -159,24 +168,24 @@ export class TimetableFormsComponent implements OnInit {
             .then((events: CalendarSchedulerEvent[]) => this.events = events);
     }
 
-    viewDaysOptionChanged(viewDays: string): void {
+     viewDaysOptionChanged(viewDays: string): void {
         console.log('viewDaysOptionChanged', viewDays);
         this.calendarScheduler.setViewDays(viewDays);
     }
 
-    changeDate(date: Date): void {
+     changeDate(date: Date): void {
         console.log('changeDate', date);
         this.viewDate = date;
         this.dateOrViewChanged();
     }
 
-    changeView(view: CalendarView): void {
+     changeView(view: CalendarView): void {
         console.log('changeView', view);
         this.view = view;
         this.dateOrViewChanged();
     }
 
-    dateOrViewChanged(): void {
+     dateOrViewChanged(): void {
         if (this.startsWithToday) {
             this.prevBtnDisabled = !this.isDateValid(subPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1));
             this.nextBtnDisabled = !this.isDateValid(addPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1));
@@ -199,13 +208,12 @@ export class TimetableFormsComponent implements OnInit {
 
     private isDateForSegmentValid (date:Date, freeTerms:FreeTermsBetween[]) : boolean {
    
+        if(date <= this.minDate)
+            return false;
         var result = false;
         let formattedDate = (moment(date)).format('YYYY-MM-DD HH:mm:ss')
         let fDate = new Date(formattedDate);
         for (let term of freeTerms){
-            
-            
-
             let freeTermStart = (moment(term.freeTermStart)).format('YYYY-MM-DD HH:mm:ss')
             let tsDate = new Date(freeTermStart);
             console.log('Start odczytu wolnych terminow '+fDate+ ' porownanie do '+tsDate);
@@ -216,48 +224,91 @@ export class TimetableFormsComponent implements OnInit {
                 let teDate = new Date(freeTermEnd);
                 if(date<teDate)
                 {
-                    
                     result = true
-         
                     break;
                 }
             }
             result = false;
         };
-        
         return result;
     }
- 
+    serviceTime: string;
+    SaveChanges(e){
+        console.log(this.serviceTime)
+        let tempDate = new Date(this.serviceTime);
+        let strDate = (moment(tempDate)).format('YYYY-MM-DD HH:mm:ss')
+        this.service.moveOrder(this.serviceIdToMove,strDate).subscribe(
+            res=>
+              {
+                  console.log((<any>res).message)
+              }, err => {
+                console.log(err);
+              });;
+        document.getElementById("CloseCalendar")!.click();
+    }
                   
 
-    viewDaysChanged(viewDays: number): void {
+     viewDaysChanged(viewDays: number): void {
         console.log('viewDaysChanged', viewDays);
         this.viewDays = viewDays;
     }
 
-    dayHeaderClicked(day: SchedulerViewDay): void {
+     dayHeaderClicked(day: SchedulerViewDay): void {
         console.log('dayHeaderClicked Day', day);
     }
 
-    hourClicked(hour: SchedulerViewHour): void {
+     hourClicked(hour: SchedulerViewHour): void {
         console.log('hourClicked Hour', hour);
     }
 
-    segmentClicked(action: string, segment: SchedulerViewHourSegment): void {
+     segmentClicked(action: string, segment: SchedulerViewHourSegment): void {
         console.log("Hello segment!!!");
+        var durationSum = 0;
+        var providerId = '';
+        this.cart$.subscribe(r=>providerId = r.provider)
+        let items : CartItem[] = [];
+        this.cart$.subscribe(r=>items = r.cartItems)
+        
+        for(let item of items)
+        {//todo:pobierac czas z item po dodaniu
+            
+            let formattedDate = (moment(segment.date)).format('YYYY-MM-DD HH:mm:ss')
+            
+            let startDate = new Date(formattedDate);
+            let tempStartDate = new Date(formattedDate);
+            tempStartDate.setHours(startDate.getHours()+durationSum);
+            let endDate = new Date(formattedDate)
+            endDate.setHours(startDate.getHours()+durationSum+item.duration);
+            
+            let order = new Order;
+            order.providerId = providerId;
+            order.startDate = tempStartDate;
+            order.endDate = endDate
+            order.serviceId = item.cartItem;
+            this.service.putOrder(order) 
+            .subscribe(
+                res=>
+                  {
+                      console.log('Service succesfully added');
+                      console.log((<any>res).message)
+                  });
+            durationSum += item.duration;
+        }
+
+        this.store.dispatch(new CartActions.resetCart())
         // console.log('zdarzenie zacznie sie:'+ segment.date);
         // console.log('segmentClicked Action', action);
         // console.log('segmentClicked Segment', segment);
     }
 
-    eventClicked(action: string, event: CalendarSchedulerEvent): void {
+     eventClicked(action: string, event: CalendarSchedulerEvent): void {
         console.log('eventClicked Action', action);
         console.log('eventClicked Event', event);
         this.modalService.open(this.content);
-
+        this.serviceIdToMove = event.id;
     }
 
-    eventTimesChanged({ event, newStart, newEnd, type }: SchedulerEventTimesChangedEvent): void {
+     eventTimesChanged({ event, newStart, newEnd, type }: SchedulerEventTimesChangedEvent): void {
         console.log('eventTimesChanged Type', type);
         console.log('eventTimesChanged Event', event);
         console.log('eventTimesChanged New Times', newStart, newEnd);
