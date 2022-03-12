@@ -23,11 +23,12 @@ export class OrdersService {
       return this.http.get(this.getProvURL,{headers:this.reqHeaders, params:queryParams});
   }
 
-  getFreeTerms(providerId:string,servDuration:number){
+    getFreeTerms(providerId:string,servDuration:number){
     let queryParams = new HttpParams();
     queryParams = queryParams.append("providerId",providerId);
     queryParams = queryParams.append("serviceDuration",servDuration);
-    return this.http.get(this.getFreeTermsURL,{headers:this.reqHeaders, params:queryParams});
+    const t =  this.http.get(this.getFreeTermsURL,{headers:this.reqHeaders, params:queryParams});
+    return t
   }
    putReqHeaders = new HttpHeaders({
     'accept': 'text/json',

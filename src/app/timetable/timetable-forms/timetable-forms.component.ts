@@ -125,25 +125,27 @@ export class TimetableFormsComponent implements OnInit {
         this.user$.subscribe(u=>isProvider = u.isProvider);
         var cartItems = cartItems;
         this.cart$.subscribe(r=> cartItems = r.cartItems);
-        var servDuration = 6;//cartItems.map(o=>o.duration).reduce((a,c)=>a+c);
-        if(<boolean>isProvider==false){
+        var servDuration = cartItems.map(o=>o.duration).reduce((a,c)=>a+c);
+        if(<boolean>isProvider==false){ 
         this.service.getFreeTerms(providerID,servDuration)
         .subscribe(
-              res=>
+             res=>
                 {
                     console.log('Loading free terms for user');
                     console.log((<any>res).message)
                     this.freeTerms = (<any>res).data.freeTermsBetween;
                     console.log(this.freeTerms);
+                    this.segmentModifier = ((segment: SchedulerViewHourSegment): void => {
+                        segment.isDisabled = !this.isDateForSegmentValid(segment.date,this.freeTerms);
+                    }).bind(this);
+                    
+                    console.log('Loading free terms for user complete');
                 });
-               
-            
-            console.log('Loading free terms for user complete');
-
-
-        this.segmentModifier = ((segment: SchedulerViewHourSegment): void => {
-            segment.isDisabled = !this.isDateForSegmentValid(segment.date,this.freeTerms);
-        }).bind(this);
+                this.eventModifier = ((event: CalendarSchedulerEvent): void => {
+                    event.isDisabled = !this.isDateValid(event.start);
+                }).bind(this);
+        
+                this.dateOrViewChanged();
         }
         // this.dayModifier = ((day: SchedulerViewDay): void => {
         //     day.cssClass = this.isDateValid(day.date) ? '' : 'cal-disabled';
@@ -157,11 +159,7 @@ export class TimetableFormsComponent implements OnInit {
         //     segment.isDisabled = !this.isDateValid(segment.date);
         // }).bind(this);
 
-        this.eventModifier = ((event: CalendarSchedulerEvent): void => {
-            event.isDisabled = !this.isDateValid(event.start);
-        }).bind(this);
 
-        this.dateOrViewChanged();
     }
     ngOnInit(): void {
         this.appService.getEvents(this.actions)
@@ -232,6 +230,7 @@ export class TimetableFormsComponent implements OnInit {
         };
         return result;
     }
+    
     serviceTime: string;
     SaveChanges(e){
         console.log(this.serviceTime)
@@ -296,6 +295,8 @@ export class TimetableFormsComponent implements OnInit {
         }
 
         this.store.dispatch(new CartActions.resetCart())
+        document.getElementById("closeModalButton2")!.click();
+        document.getElementById("closeModalButton1")!.click();
         // console.log('zdarzenie zacznie sie:'+ segment.date);
         // console.log('segmentClicked Action', action);
         // console.log('segmentClicked Segment', segment);

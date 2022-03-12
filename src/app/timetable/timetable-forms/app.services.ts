@@ -43,18 +43,21 @@ export class AppService {
         this.cart$ = this.store.select('cart');
         this.user$ = this.Userstore.select('user');
     }
+    
     cart$ : Observable<Carton>
     getEvents(actions: CalendarSchedulerEventAction[] ): Promise<CalendarSchedulerEvent[]> 
     {
         this.store.dispatch(new CartActions.resetCart())
         this.events= []
         var providerID = ''
+        var duration = 0
         this.user$.subscribe(r=> providerID = r.providerID);
+        this.cart$.subscribe(r=> duration = r.cartItems.reduce((s,c)=>s+c.duration,0))
         var isProvider = false;
         this.user$.subscribe(u=>isProvider = u.isProvider)
         if(<boolean>isProvider==true){
-        this.service.getProviderOrders(providerID)
-        .subscribe(
+            this.service.getProviderOrders(providerID)
+            .subscribe(
             res=>
                 { 
                     console.log('Loading Orders for provider');
@@ -71,38 +74,38 @@ export class AppService {
                         });
                     }
                 });
-            }
-            else{
-                this.service.getFreeTerms(providerID,4)
-                .subscribe(
-                    res=>
-                        {
-                            console.log('Loading free terms for user');
-                            console.log((<any>res).message)
-                            this.freeTerms = (<any>res).data.freeTermsBetween;
-                            
-                            for (var order of this.freeTerms){
-                                this.events.push(<CalendarSchedulerEvent>{
-                                    start: new Date(order.freeTermStart),
-                                    end:  new Date(order.freeTermEnd),
-                                    actions:actions,
-                                    isClickable: true,
-                                    color: { primary: '#669900', secondary: '#669911' },
-                                });
-                            }
-                            const currentDate = new Date();
-                            currentDate.setMonth(currentDate.getMonth()+1)
-                            currentDate.toISOString().slice(0,10);
-                            this.events.push(<CalendarSchedulerEvent>{
-                                start: new Date((<any>res).data.freeTermFrom),
-                                end:  new Date(currentDate.toISOString().slice(0,10)),
-                                actions:actions,
-                                isClickable: true,
-                                color: { primary: '#669900', secondary: '#669911' },
-                            });
-                        });
         }
-        return new Promise(resolve => setTimeout(() => resolve(this.events), 1));    
+        // else{
+        //     this.service.getFreeTerms(providerID,duration)
+        //     .subscribe(
+        //         res=>
+        //             {
+        //                 console.log('Loading free terms for user');
+        //                 console.log((<any>res).message)
+        //                 this.freeTerms = (<any>res).data.freeTermsBetween;
+                        
+        //                 for (var order of this.freeTerms){
+        //                     this.events.push(<CalendarSchedulerEvent>{
+        //                         start: new Date(order.freeTermStart),
+        //                         end:  new Date(order.freeTermEnd),
+        //                         actions:actions,
+        //                         isClickable: true,
+        //                         color: { primary: '#669900', secondary: '#669911' },
+        //                     });
+        //                 }
+        //                 const currentDate = new Date();
+        //                 currentDate.setMonth(currentDate.getMonth()+1)
+        //                 currentDate.toISOString().slice(0,10);
+        //                 this.events.push(<CalendarSchedulerEvent>{
+        //                     start: new Date((<any>res).data.freeTermFrom),
+        //                     end:  new Date(currentDate.toISOString().slice(0,10)),
+        //                     actions:actions,
+        //                     isClickable: true,
+        //                     color: { primary: '#669900', secondary: '#669911' },
+        //                 });
+        //             });
+        // }
+        return new Promise(resolve => setTimeout(() => resolve(this.events), 0.001));    
     }
         // [
         //     <CalendarSchedulerEvent>{

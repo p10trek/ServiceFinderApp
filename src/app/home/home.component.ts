@@ -9,6 +9,7 @@ import { GetProvidersView,Datum, Daum} from '../shared/home.model';
 import { HomeService } from '../shared/home.serice';
 import * as CartActions from 'src/app/cart.actions'
 import { DOCUMENT } from '@angular/common';
+import { createIsExtensionOrMonitorPresent } from '@ngrx/store-devtools/src/instrument';
 interface CartState{
   // isLogged:boolean,
    //userName:string, 
@@ -34,7 +35,6 @@ export class HomeComponent implements OnInit {
 
 getProvidersView : Datum[]
 getProviderServices : Daum[]
-cartItem : CartItem;
 map : google.maps.Map;
 choosedMarker : string;
 isChecked:boolean;
@@ -93,11 +93,13 @@ cart$ : Observable<Carton>
   }
 
   addToCart(e,itemId:string,duration:number){
-    this.cartItem.cartItem = itemId;
-    this.cartItem.duration = duration;
+    const cartItem : CartItem = {
+       cartItem : itemId,
+       duration : duration,
+    };
     if(e.target.checked)
-    this.store.dispatch(new CartActions.addToCart(this.cartItem))
+    this.store.dispatch(new CartActions.addToCart(cartItem))
     else
-    this.store.dispatch(new CartActions.delFromCart(this.cartItem))
+    this.store.dispatch(new CartActions.delFromCart(cartItem))
   }  
 }
