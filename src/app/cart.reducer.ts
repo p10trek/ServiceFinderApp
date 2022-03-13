@@ -37,8 +37,8 @@ export function cartReducer(state : Carton = defaultCartState, action){
         case RESET_CART:
              console.log('Cart was emptied')
              return{
-             ...state,
-                cartItem : defaultCartState.cartItems
+                ...state = defaultCartState,
+                //cartItem : defaultCartState.cartItems
              };
         default:
             console.log('default cart action state returned')

@@ -47,7 +47,7 @@ export class AppService {
     cart$ : Observable<Carton>
     getEvents(actions: CalendarSchedulerEventAction[] ): Promise<CalendarSchedulerEvent[]> 
     {
-        this.store.dispatch(new CartActions.resetCart())
+        //this.store.dispatch(new CartActions.resetCart())
         this.events= []
         var providerID = ''
         var duration = 0
@@ -55,14 +55,16 @@ export class AppService {
         this.cart$.subscribe(r=> duration = r.cartItems.reduce((s,c)=>s+c.duration,0))
         var isProvider = false;
         this.user$.subscribe(u=>isProvider = u.isProvider)
-        if(<boolean>isProvider==true){
-            this.service.getProviderOrders(providerID)
-            .subscribe(
+        if(<boolean>isProvider==true)
+        {
+            var test = this.service.getProviderOrders(providerID);
+            test.subscribe(
             res=>
                 { 
                     console.log('Loading Orders for provider');
                     console.log((<any>res).message)
                     this.orders = (<any>res).data;
+                    
                     for (var order of this.orders){
                         this.events.push(   <CalendarSchedulerEvent>{
                             id: order.id,
@@ -73,7 +75,10 @@ export class AppService {
                             isClickable: true
                         });
                     }
+                    console.log('Wczytano: '+this.orders.length)
                 });
+                return test.toPromise().then(x=> new Promise(resolve => setTimeout(() => resolve(this.events), 1)));
+                
         }
         // else{
         //     this.service.getFreeTerms(providerID,duration)
@@ -105,7 +110,8 @@ export class AppService {
         //                 });
         //             });
         // }
-        return new Promise(resolve => setTimeout(() => resolve(this.events), 0.001));    
+   
+        return new Promise(resolve => setTimeout(() => resolve(this.events), 1));    
     }
         // [
         //     <CalendarSchedulerEvent>{
