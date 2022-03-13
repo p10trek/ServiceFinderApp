@@ -262,6 +262,8 @@ export class TimetableFormsComponent implements OnInit {
                 console.log(err);
               });;
         document.getElementById("CloseCalendar")!.click();
+        this.appService.getEvents(this.actions)
+            .then((events: CalendarSchedulerEvent[]) => this.events = events);
     }
                   
 
