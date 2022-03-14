@@ -254,16 +254,18 @@ export class TimetableFormsComponent implements OnInit {
         console.log(this.serviceTime)
         let tempDate = new Date(this.serviceTime);
         let strDate = (moment(tempDate)).format('YYYY-MM-DD HH:mm:ss')
-        this.service.moveOrder(this.serviceIdToMove,strDate).subscribe(
+        var moveOrder = this.service.moveOrder(this.serviceIdToMove,strDate)
+        moveOrder.subscribe(
             res=>
               {
-                  console.log((<any>res).message)
+                console.log((<any>res).message)
               }, err => {
                 console.log(err);
               });;
         document.getElementById("CloseCalendar")!.click();
-        this.appService.getEvents(this.actions)
-            .then((events: CalendarSchedulerEvent[]) => this.events = events);
+        
+            moveOrder.toPromise().then(x=> new Promise(resolve => setTimeout(() => resolve(this.appService.getEvents(this.actions)
+            .then((events: CalendarSchedulerEvent[]) => this.events = events)), 1)));
     }
                   
 
