@@ -1,21 +1,25 @@
 <form class="container" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-  <div class="col-md-9 border-right">
-    <div class="p-3 py-5">
+  <div class="col-md-12">
+    <div class="p-5 w-100">
 
-      <div class="col-md-6">
-      <div *ngIf="invalidLogin" class="alert alert-danger">Wrong credentials</div>
+      <div class="col-md-9">
+      <div *ngIf="invalidLogin" class="alert alert-danger"><b>Wrong credentials</b></div>
       </div>
-      <div class="col-md-6">
-      <label for="username" class="sr-only">Email address</label>
+      <div class="col-md-9">
+      <label for="userName" for="userName"><b>User name</b></label><br>
       <input type="email" id="userName" name="userName" #userName="ngModel" [(ngModel)]="service.formData.userName" placeholder="User Name" required autofocus>
       </div>
-      <div class="col-md-6">
-      <label for="password" class="sr-only">Password</label>
+      <div class="col-md-9">
+      <label for="password" for="password"><b>Password</b></label><br>
       <input type="password" id="password" name="password" #password="ngModel" [(ngModel)]="service.formData.password" placeholder="Password" required>
       </div>   
-      <div class="col-md-6">
-      <button class="btn btn-lg btn-dark btn-block" type="submit">Sign in</button>
+      <div class="col-md-9">
+        <a style="font-size: 10px; text-decoration: none" href="sdfsdfsdfsdf">Forgot password?</a>  
       </div>
+      <div class="col-md-9">
+          <button class="btn btn-sm btn-outline-dark btn-block" type="submit">Sign in</button>
+    </div>
+   
     </div>
    </div>
 </form>
