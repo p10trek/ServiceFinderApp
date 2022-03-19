@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, LOCALE_ID, HostListener, ViewChild } from '@angular/core';
 import { Observable, Subject, throwIfEmpty } from 'rxjs';
 import { OrdersService } from 'src/app/shared/orders.service';
-import { Datum, FreeTermsBetween, FreeTermsView, Order, Orders, orders } from 'src/app/shared/orders.model';
+import { Datum, FreeTermsBetween, FreeTermsView, Order, Orders, orders,MoveOrderResponse,moResp } from 'src/app/shared/orders.model';
 import {
     endOfDay,
     addMonths
@@ -72,7 +72,7 @@ export class TimetableFormsComponent implements OnInit {
      excludeDays: number[] = []; // [0];
      dayStartHour: number = 6;
      dayEndHour: number = 22;
-
+     moveOrderResp: moResp;
      minDate: Date = new Date();
      maxDate: Date = endOfDay(addMonths(new Date(), 1));
      dayModifier: Function;
@@ -259,6 +259,18 @@ export class TimetableFormsComponent implements OnInit {
             res=>
               {
                 console.log((<any>res).message)
+                if((<any>res).success==true)
+                {
+                    this.moveOrderResp = (<any>res).data
+                    var sendSms = this.service.sendSms(this.moveOrderResp.clientName,'Your service in'+ this.moveOrderResp.provName +'was moved to a new date: '+strDate);
+                    sendSms.subscribe(
+                        resp=>
+                        {
+                          console.log((<any>resp).message)
+                        }, err => {
+                          console.log(err);
+                        });
+                }
               }, err => {
                 console.log(err);
               });;
@@ -266,6 +278,8 @@ export class TimetableFormsComponent implements OnInit {
         
             moveOrder.toPromise().then(x=> new Promise(resolve => setTimeout(() => resolve(this.appService.getEvents(this.actions)
             .then((events: CalendarSchedulerEvent[]) => this.events = events)), 1)));
+        
+
     }
                   
 

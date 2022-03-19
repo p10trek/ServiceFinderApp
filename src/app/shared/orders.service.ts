@@ -48,4 +48,8 @@ export class OrdersService {
 
     return this.http.get(this.MoveOrderURL,{headers:this.reqHeaders, params: queryParams})
   }
+  sendSms(userName:string,message:string){
+    var url = "https://localhost:44309/SendSms?userName=" + userName + "&message=" + message
+    return this.http.get(url)
+  }
 }

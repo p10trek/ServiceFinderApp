@@ -11,7 +11,7 @@
 </agm-marker>-->
 </agm-map>
 <ng-template class="col-md-12" #content let-c="close" let-d="dismiss">
-  <div class="modal-header" class="col-md-12">
+  <div class="modal-header" class="col-md-24">
     <div class="d-flex justify-content-between">
       <h4 class="modal-title ml-5" id="modal-basic-title">Choose services from list</h4>
       <button type="button" class="close" id="closeModalButton1" aria-label="Close" (click)="d('Cross click')">
@@ -21,17 +21,11 @@
   </div>
   <div class="modal-body">
     <div class="container">
-      <table class="table table-striped table-responsive-md btn-table">
+      <table class="table table-striped table-responsive-lg btn-table">
         <thead>
           <tr>
             <th>
-              Index
-            </th>
-            <th>
               Service Name
-            </th>
-            <th>
-              Description
             </th>
             <th>
               Duration
@@ -40,15 +34,15 @@
               Cost
             </th>
             <th>
-              Reservation
+              Reserv
             </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let service of getProviderServices ;let i=index;">
-            <td><span>{{i}}</span></td>
+            <!--<td><span>{{i}}</span></td>-->
             <td><span>{{service.serviceName}}</span></td>
-            <td><span>{{service.description}}</span></td>
+            <!--<td><span>{{service.description}}</span></td>-->
             <td><span>{{service.duration}}</span></td>
             <td *ngIf="service.isPriced==false"><span>For valuation</span></td>
             <td *ngIf="service.isPriced==true"><span>{{service.price}}</span></td>

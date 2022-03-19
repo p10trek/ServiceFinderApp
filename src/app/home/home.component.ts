@@ -73,7 +73,7 @@ cart$ : Observable<Carton>
               this.store.dispatch(new CartActions.setProvider(provider.id))
               console.log((<any>res).Messaage)
             })
-            this.modalService.open(this.content);
+            this.modalService.open(this.content,{ size: 'lg', backdrop: 'static' });
             console.log('Marker klikniety');
             console.log(provider.name);
           }); 

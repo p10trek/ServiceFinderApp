@@ -39,3 +39,15 @@ export class Order  {
     endDate: Date;
 
 }
+
+     export class moResp {
+         provName: string;
+         clientName: string;
+     }
+ 
+     export interface MoveOrderResponse {
+         data: moResp;
+         success: boolean;
+         message: string;
+     }
+ 
