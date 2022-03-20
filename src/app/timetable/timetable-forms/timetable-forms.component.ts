@@ -262,7 +262,7 @@ export class TimetableFormsComponent implements OnInit {
                 if((<any>res).success==true)
                 {
                     this.moveOrderResp = (<any>res).data
-                    var sendSms = this.service.sendSms(this.moveOrderResp.clientName,'Your service in'+ this.moveOrderResp.provName +'was moved to a new date: '+strDate);
+                    var sendSms = this.service.sendSms(this.moveOrderResp.clientName,'Your service in: '+ this.moveOrderResp.provName +' ' + 'was moved to a new date: '+strDate);
                     sendSms.subscribe(
                         resp=>
                         {
