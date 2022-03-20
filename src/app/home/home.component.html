@@ -12,13 +12,17 @@
 </agm-map>
 <ng-template class="col-md-12" #content let-c="close" let-d="dismiss">
   <div class="modal-header" class="col-md-24">
-    <div class="d-flex justify-content-between">
-      <h4 class="modal-title ml-5" id="modal-basic-title">Choose services from list</h4>
-      <button type="button" class="close" id="closeModalButton1" aria-label="Close" (click)="d('Cross click')">
+    <div class="float-end">
+      
+      <button type="button" class="close float-right" id="closeModalButton1" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-  </div>
+    <div style="height: 150px;" class="text-center">
+      <img src="https://image.spreadshirtmedia.net/image-server/v1/mp/compositions/T6A1MPA4289PT17X18Y59D168690668FS2898/views/1,width=550,height=550,appearanceId=1,backgroundColor=FFFFFF,noPt=true/logo-mechanika-herb-cool-koszulka-meska.jpg" class="img-fluid mh-100" alt="Responsive image"  />
+    </div>
+    <h4 class="modal-title ml-5 text-center" id="modal-basic-title">Choose services from list</h4>
+    </div>
   <div class="modal-body">
     <div class="container">
       <table class="table table-striped table-responsive-lg btn-table">
