@@ -100,8 +100,8 @@
 
  -->
 
-
-<div class="container rounded bg-white mt-5 mb-5">
+ <!--<form novalidate #form="ngForm" (submit)="onSubmit(form)">-->
+<form novalidate #form="ngForm" (ngSubmit)="SaveProfile(form.value)" class="container rounded bg-white mt-5 mb-5" autocomplete="off">
     <div class="row">
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
@@ -116,45 +116,45 @@
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
                 <div *ngIf="profile$ | async as u" class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Email ID</label><input type="text" class="form-control"
-                            value="u.email" placeholder="User login" name="Login" #Login="ngModel"
-                            [(ngModel)]="service.formData.Login" value="{{u.email}}"></div>
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control"
-                            value="{{u.name}}" placeholder="User name" name="Name" #Name="ngModel"
-                            [(ngModel)]="service.formData.Name"></div>
+                    <div *ngIf="profile$ | async as u" class="col-md-6"><label class="labels">Email ID</label><input type="text" class="form-control"
+                             placeholder="User login" name="Login" #Login="ngModel"
+                            [(ngModel)]="profileData.Email"></div>
+                    <div *ngIf="profile$ | async as u" class="col-md-6">
+                        <label class="labels">Name</label>
+                        <input type="text" class="form-control" id="Name" placeholder="User name" name="Name" #Name="ngModel"
+                            [(ngModel)]="profileData.Name"></div>
                     <div class="col-md-6"><label class="labels">Password</label><input type="password"
-                            class="form-control" placeholder="User password" name="Password" #Password="ngModel"
-                            [(ngModel)]="service.formData.Password"></div>
+                            value="u.password" class="form-control" placeholder="User password" name="Password" #Password="ngModel"
+                            [(ngModel)]="service.formData.Password" autocomplete="off"></div>
                     <div class="col-md-6"><label class="labels">New password</label><input type="password"
                             class="form-control" placeholder="User password" name="Password" #Password="ngModel"
-                            [(ngModel)]="service.formData.Password"></div>
+                            [(ngModel)]="profileData.NewPassword" autocomplete="off"></div>
                     <div class="col-md-6"><label class="labels">New password</label><input type="password"
                             class="form-control" placeholder="User password" name="Password" #Password="ngModel"
-                            [(ngModel)]="service.formData.Password"></div>
+                            [(ngModel)]="profileData.NewPassword" autocomplete="off"></div>
                 </div>
                 <div *ngIf="profile$ | async as u" class="row mt-3">
                     <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">Mobile
                             Number</label><input type="text" value="{{u.phone}}" class="form-control"
-                            placeholder="User phone" name="Phone" #Phone="ngModel" [(ngModel)]="service.formData.Phone">
+                            placeholder="User phone" name="Phone" #Phone="ngModel" [(ngModel)]="profileData.Phone">
                     </div>
                     <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">City</label><input
                             type="text" value="u.city | async" class="form-control" placeholder="City" name="City"
-                            #City="ngModel" [(ngModel)]="service.formData.City"></div>
+                            #City="ngModel" [(ngModel)]="profileData.City"></div>
                     <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">Street</label><input
                             type="text" class="form-control" placeholder="Street" name="Street" #Street="ngModel"
-                            [(ngModel)]="service.formData.Street"></div>
+                            [(ngModel)]="profileData.Street"></div>
                     <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">Postcode</label><input
                             type="text" class="form-control" value="{{u.postalCode}}" placeholder="PostalCode"
-                            name="PostalCode" #PostalCode="ngModel" [(ngModel)]="service.formData.PostalCode"></div>
+                            name="PostalCode" #PostalCode="ngModel" [(ngModel)]="profileData.PostalCode"></div>
                     <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">Number</label><input
-                            type="text" class="form-control" placeholder="enter address line 2" value="{{u.number}}">
+                            type="text" class="form-control" placeholder="enter address line 2">
                     </div>
-
-
                 </div>
                 <div class="mt-5 text-center"><button class="btn btn-outline-dark profile-button" type="submit">Save
                         Profile</button></div>
             </div>
         </div>
     </div>
-</div>
+</form>
+

@@ -1,7 +1,7 @@
 import { Component, OnInit, Provider } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable,of } from 'rxjs';
-import { ProfileData } from 'src/app/shared/profile.model';
+import { Profile, ProfileData } from 'src/app/shared/profile.model';
 import { ProfileService } from 'src/app/shared/profile.service';
 import { Register } from 'src/app/shared/register.model';
 @Component({
@@ -12,17 +12,40 @@ import { Register } from 'src/app/shared/register.model';
 })
 export class ProfileFormsComponent implements OnInit {
 
+  profileData : any
   constructor(public service:ProfileService) { }
   profile$:Observable<ProfileData>
+  
   ngOnInit(): void {
     this.service.getProfile().subscribe(
       res=>{
         console.log((<any>res).data);
-        console.log('here');
+        //console.log('here');
         this.profile$ = of((<any>res).data);
+        console.log('user name is: ',(<any>res).data.name);
+        this.profileData =
+        {
+          Name : (<any>res).data.name,
+          City :  (<any>res).data.city,
+          Description :  (<any>res).data.description,
+          Email :  (<any>res).data.email,
+          Logo :  (<any>res).data.Logo,
+          NewPassword : (<any>res).data.NewPassword,
+          Number : (<any>res).data.Number,
+          Phone : (<any>res).data.Phone,
+          PostalCode : (<any>res).data.PostalCode,
+          Street : (<any>res).data.Street
+        }
       },   
        err=>{console.log(err);});
     }
-  onSubmit(form:NgForm){
+  SaveProfile(form:NgForm){
+    console.log('form sending');
+    this.service.editProfile(this.profileData).subscribe(response=>
+      {
+        console.log((<any>response).data);
+        console.log('sended');
+      })
+    
   }
 }

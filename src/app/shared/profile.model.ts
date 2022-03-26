@@ -1,4 +1,5 @@
 export class Profile {
+    Id:string='';
     Login:string='';
     Password:string='';
     OldPassword:string='';
@@ -105,10 +106,10 @@ export class ProfileData {
     id: string;
     email: string;
     phone: string;
-    name: string;
+    Name: string;
     description: string;
     logo: string;
-    city: string;
+    City: string;
     street: string;
     number: string;
     postalCode: string;

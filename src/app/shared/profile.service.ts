@@ -14,9 +14,17 @@ export class ProfileService {
   });
   user$ : Observable<User>;
   constructor(private http: HttpClient) { }
-  readonly baseURL = 'https://localhost:44309/GetProfile'
+  readonly GetProviderURL = 'https://localhost:44309/GetProfile'
+  readonly EditProviderURL = 'https://localhost:44309/EditProvider'
   formData:Profile =new Profile();
+
   getProfile(){
-      return this.http.get(this.baseURL,{headers:this.reqHeaders});
+      return this.http.get(this.GetProviderURL,{headers:this.reqHeaders});
   }
-}
+  editProfile(profileData : Profile){
+      const params = JSON.stringify(profileData);
+      return this.http.post(this.EditProviderURL, params, {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json"
+        })
+});}}
