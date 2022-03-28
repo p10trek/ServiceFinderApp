@@ -115,40 +115,41 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
-                <div *ngIf="profile$ | async as u" class="row mt-2">
-                    <div *ngIf="profile$ | async as u" class="col-md-6"><label class="labels">Email ID</label><input type="text" class="form-control"
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Email ID</label><input type="text" class="form-control"
                              placeholder="User login" name="Login" #Login="ngModel"
                             [(ngModel)]="profileData.Email"></div>
-                    <div *ngIf="profile$ | async as u" class="col-md-6">
+                    <div class="col-md-6">
                         <label class="labels">Name</label>
                         <input type="text" class="form-control" id="Name" placeholder="User name" name="Name" #Name="ngModel"
                             [(ngModel)]="profileData.Name"></div>
                     <div class="col-md-6"><label class="labels">Password</label><input type="password"
-                            value="u.password" class="form-control" placeholder="User password" name="Password" #Password="ngModel"
+                            class="form-control" placeholder="Your old password" name="Password" #Password="ngModel"
                             [(ngModel)]="service.formData.Password" autocomplete="off"></div>
                     <div class="col-md-6"><label class="labels">New password</label><input type="password"
-                            class="form-control" placeholder="User password" name="Password" #Password="ngModel"
+                            class="form-control" placeholder="Your new password" name="Password" #Password="ngModel"
                             [(ngModel)]="profileData.NewPassword" autocomplete="off"></div>
                     <div class="col-md-6"><label class="labels">New password</label><input type="password"
-                            class="form-control" placeholder="User password" name="Password" #Password="ngModel"
+                            class="form-control" placeholder="Reply your new password" name="Password" #Password="ngModel"
                             [(ngModel)]="profileData.NewPassword" autocomplete="off"></div>
                 </div>
-                <div *ngIf="profile$ | async as u" class="row mt-3">
-                    <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">Mobile
-                            Number</label><input type="text" value="{{u.phone}}" class="form-control"
+                <div  class="row mt-3">
+                    <div  class="col-md-12"><label class="labels">Mobile
+                            Number</label><input type="text" class="form-control"
                             placeholder="User phone" name="Phone" #Phone="ngModel" [(ngModel)]="profileData.Phone">
                     </div>
-                    <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">City</label><input
-                            type="text" value="u.city | async" class="form-control" placeholder="City" name="City"
+                    <div  class="col-md-12"><label class="labels">City</label><input
+                            type="text" class="form-control" placeholder="City" name="City"
                             #City="ngModel" [(ngModel)]="profileData.City"></div>
-                    <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">Street</label><input
+                    <div  class="col-md-12"><label class="labels">Street</label><input
                             type="text" class="form-control" placeholder="Street" name="Street" #Street="ngModel"
                             [(ngModel)]="profileData.Street"></div>
-                    <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">Postcode</label><input
-                            type="text" class="form-control" value="{{u.postalCode}}" placeholder="PostalCode"
+                    <div  class="col-md-12"><label class="labels">Postcode</label><input
+                            type="text" class="form-control"
                             name="PostalCode" #PostalCode="ngModel" [(ngModel)]="profileData.PostalCode"></div>
-                    <div *ngIf="profile$ | async as u" class="col-md-12"><label class="labels">Number</label><input
-                            type="text" class="form-control" placeholder="enter address line 2">
+                    <div  class="col-md-12"><label class="labels">Street number</label><input
+                            type="text" class="form-control"  
+                            name="Number" #Number="ngModel" [(ngModel)]="profileData.Number">
                     </div>
                 </div>
                 <div class="mt-5 text-center"><button class="btn btn-outline-dark profile-button" type="submit">Save
