@@ -25,6 +25,7 @@ export class ProfileService {
       const params = JSON.stringify(profileData);
       return this.http.post(this.EditProviderURL, params, {
         headers: new HttpHeaders({
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${localStorage.getItem("jwt")}` 
         })
 });}}

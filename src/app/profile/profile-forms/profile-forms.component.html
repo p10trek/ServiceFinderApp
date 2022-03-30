@@ -100,15 +100,17 @@
 
  -->
 
- <!--<form novalidate #form="ngForm" (submit)="onSubmit(form)">-->
-<form novalidate #form="ngForm" (ngSubmit)="SaveProfile(form.value)" class="container rounded bg-white mt-5 mb-5" autocomplete="off">
+<!--<form novalidate #form="ngForm" (submit)="onSubmit(form)">-->
+<form novalidate #form="ngForm" (ngSubmit)="SaveProfile(form.value)" class="container rounded bg-white mt-5 mb-5"
+    autocomplete="off">
     <div class="row">
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
-                    width="150px"
-                    src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" width="150px"
+                    src="{{profileData.Logo}}"><span
                     class="font-weight-bold"></span><span class="text-black-50"></span><span>
-                </span></div>
+                </span>
+            </div>
         </div>
         <div class="col-md-9 border-right">
             <div class="p-3 py-5">
@@ -116,41 +118,48 @@
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Email ID</label><input type="text" class="form-control"
-                             placeholder="User login" name="Login" #Login="ngModel"
-                            [(ngModel)]="profileData.Email"></div>
+                    <div class="col-md-6"><label class="labels">Email</label><input type="text" class="form-control"
+                            placeholder="User login" name="Login" #Login="ngModel" [(ngModel)]="profileData.Email">
+                    </div>
                     <div class="col-md-6">
                         <label class="labels">Name</label>
-                        <input type="text" class="form-control" id="Name" placeholder="User name" name="Name" #Name="ngModel"
-                            [(ngModel)]="profileData.Name"></div>
-                    <div class="col-md-6"><label class="labels">Password</label><input type="password"
+                        <input type="text" class="form-control" id="Name" placeholder="User name" name="Name"
+                            #Name="ngModel" [(ngModel)]="profileData.Name">
+                    </div>
+                    <div class="col-md-6"><label class="labels">Phone
+                            Number</label><input type="text" class="form-control" placeholder="User phone" name="Phone"
+                            #Phone="ngModel" [(ngModel)]="profileData.Phone">
+                    </div>
+                        <div class="col-md-6"><label class="labels">City</label><input type="text" class="form-control"
+                                placeholder="City" name="City" #City="ngModel" [(ngModel)]="profileData.City"></div>
+                        <div class="col-md-6"><label class="labels">Street</label><input type="text"
+                                class="form-control" placeholder="Street" name="Street" #Street="ngModel"
+                                [(ngModel)]="profileData.Street"></div>
+                        <div class="col-md-6"><label class="labels">Postcode</label><input type="text"
+                                class="form-control" name="PostalCode" #PostalCode="ngModel"
+                                [(ngModel)]="profileData.PostalCode"></div>
+                        <div class="col-md-6"><label class="labels">Street number</label><input type="text"
+                                class="form-control" name="Number" #Number="ngModel" [(ngModel)]="profileData.Number">
+                        </div>
+
+                        <div class="col-md-6"><label class="labels">Logo link</label><input type="text"
+                            class="form-control" name="Logo" #Logo="ngModel" [(ngModel)]="profileData.Logo">
+                    </div>
+
+                
+                    <div class="row mt-3">
+
+                    </div>
+
+                    <!-- <div class="col-md-6"><label class="labels">Password</label><input type="password"
                             class="form-control" placeholder="Your old password" name="Password" #Password="ngModel"
-                            [(ngModel)]="service.formData.Password" autocomplete="off"></div>
+                            [(ngModel)]="service.formData.Password" autocomplete="off"></div><span></span>
                     <div class="col-md-6"><label class="labels">New password</label><input type="password"
                             class="form-control" placeholder="Your new password" name="Password" #Password="ngModel"
                             [(ngModel)]="profileData.NewPassword" autocomplete="off"></div>
-                    <div class="col-md-6"><label class="labels">New password</label><input type="password"
-                            class="form-control" placeholder="Reply your new password" name="Password" #Password="ngModel"
-                            [(ngModel)]="profileData.NewPassword" autocomplete="off"></div>
-                </div>
-                <div  class="row mt-3">
-                    <div  class="col-md-12"><label class="labels">Mobile
-                            Number</label><input type="text" class="form-control"
-                            placeholder="User phone" name="Phone" #Phone="ngModel" [(ngModel)]="profileData.Phone">
-                    </div>
-                    <div  class="col-md-12"><label class="labels">City</label><input
-                            type="text" class="form-control" placeholder="City" name="City"
-                            #City="ngModel" [(ngModel)]="profileData.City"></div>
-                    <div  class="col-md-12"><label class="labels">Street</label><input
-                            type="text" class="form-control" placeholder="Street" name="Street" #Street="ngModel"
-                            [(ngModel)]="profileData.Street"></div>
-                    <div  class="col-md-12"><label class="labels">Postcode</label><input
-                            type="text" class="form-control"
-                            name="PostalCode" #PostalCode="ngModel" [(ngModel)]="profileData.PostalCode"></div>
-                    <div  class="col-md-12"><label class="labels">Street number</label><input
-                            type="text" class="form-control"  
-                            name="Number" #Number="ngModel" [(ngModel)]="profileData.Number">
-                    </div>
+                    <div class="col-md-6"><label class="labels">Reply new password</label><input type="password"
+                            class="form-control" placeholder="Reply your new password" name="Password"
+                            #Password="ngModel" [(ngModel)]="profileData.NewPassword" autocomplete="off"></div> -->
                 </div>
                 <div class="mt-5 text-center"><button class="btn btn-outline-dark profile-button" type="submit">Save
                         Profile</button></div>
@@ -158,4 +167,3 @@
         </div>
     </div>
 </form>
-

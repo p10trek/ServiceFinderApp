@@ -29,12 +29,11 @@ export class ProfileFormsComponent implements OnInit {
           City :  (<any>res).data.city,
           Description :  (<any>res).data.description,
           Email :  (<any>res).data.email,
-          Logo :  (<any>res).data.Logo,
-          NewPassword : (<any>res).data.NewPassword,
-          Number : (<any>res).data.Number,
-          Phone : (<any>res).data.Phone,
-          PostalCode : (<any>res).data.PostalCode,
-          Street : (<any>res).data.Street
+          Logo :  (<any>res).data.logo,
+          Number : (<any>res).data.number,
+          Phone : (<any>res).data.phone,
+          PostalCode : (<any>res).data.postalCode,
+          Street : (<any>res).data.street,
         }
       },   
        err=>{console.log(err);});

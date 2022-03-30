@@ -1,8 +1,6 @@
 export class Profile {
     Id:string='';
     Login:string='';
-    Password:string='';
-    OldPassword:string='';
     Name:string='';
     Email:string='';
     Phone:string='';
