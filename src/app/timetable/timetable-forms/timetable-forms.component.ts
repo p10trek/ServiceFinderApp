@@ -298,51 +298,56 @@ export class TimetableFormsComponent implements OnInit {
 
      segmentClicked(action: string, segment: SchedulerViewHourSegment): void {
         console.log("Hello segment!!!");
-        var durationSum = 0;
-        var UTCoffset = 1;
-        var providerId = '';
-        this.cart$ = this.store.select('cart');
-        this.cart$.subscribe(r=>providerId = r.provider)
-        var items : CartItem[] = [];
-        this.cart$.subscribe(r=>items = r.cartItems)
-        
-        for(let item of items)
-        {//todo:pobierac czas z item po dodaniu
+        var isProvider = false;
+        this.user$.subscribe(u=>isProvider = u.isProvider);
+        if(isProvider == false)
+        {
+            var durationSum = 0;
+            var UTCoffset = 1;
+            var providerId = '';
+            this.cart$ = this.store.select('cart');
+            this.cart$.subscribe(r=>providerId = r.provider)
+            var items : CartItem[] = [];
+            this.cart$.subscribe(r=>items = r.cartItems)
             
-            let formattedDate = (moment(segment.date)).format('YYYY-MM-DD HH:mm:ss')
-            
-            let startDate = new Date(formattedDate);
-            let tempStartDate = new Date(formattedDate);
-            tempStartDate.setHours(startDate.getHours()+durationSum+UTCoffset);
-            let endDate = new Date(formattedDate)
-            endDate.setHours(startDate.getHours()+durationSum+item.duration+UTCoffset);
-            
-            let order = new Order;
-            order.providerId = providerId;
-            order.startDate = tempStartDate;
-            order.endDate = endDate
-            order.serviceId = item.cartItem;
-            this.service.putOrder(order) 
-            .subscribe(
-                res=>
-                  {
-                      console.log('Service succesfully added');
-                      console.log((<any>res).message)
-                  });
-            durationSum += item.duration;
-        }
+            for(let item of items)
+            {//todo:pobierac czas z item po dodaniu
+                
+                let formattedDate = (moment(segment.date)).format('YYYY-MM-DD HH:mm:ss')
+                
+                let startDate = new Date(formattedDate);
+                let tempStartDate = new Date(formattedDate);
+                tempStartDate.setHours(startDate.getHours()+durationSum+UTCoffset);
+                let endDate = new Date(formattedDate)
+                endDate.setHours(startDate.getHours()+durationSum+item.duration+UTCoffset);
+                
+                let order = new Order;
+                order.providerId = providerId;
+                order.startDate = tempStartDate;
+                order.endDate = endDate
+                order.serviceId = item.cartItem;
+                this.service.putOrder(order) 
+                .subscribe(
+                    res=>
+                    {
+                        console.log('Service succesfully added');
+                        console.log((<any>res).message)
+                    });
+                durationSum += item.duration;
+            }
 
-        this.store.dispatch(new CartActions.resetCart())
-        document.getElementById("closeModalButton2")!.click();
-        document.getElementById("closeModalButton1")!.click();
-        this.cart$ = this.store.select('cart');
-        var cartItems : CartItem[] = [];
-        this.cart$.subscribe(r=> cartItems = r.cartItems);
-        console.log('zawartosc koszyka powinna byc pusta')
-        console.log(cartItems)
-        // console.log('zdarzenie zacznie sie:'+ segment.date);
-        // console.log('segmentClicked Action', action);
-        // console.log('segmentClicked Segment', segment);
+            this.store.dispatch(new CartActions.resetCart())
+            document.getElementById("closeModalButton2")!.click();
+            document.getElementById("closeModalButton1")!.click();
+            this.cart$ = this.store.select('cart');
+            var cartItems : CartItem[] = [];
+            this.cart$.subscribe(r=> cartItems = r.cartItems);
+            console.log('zawartosc koszyka powinna byc pusta')
+            console.log(cartItems)
+            // console.log('zdarzenie zacznie sie:'+ segment.date);
+            // console.log('segmentClicked Action', action);
+            // console.log('segmentClicked Segment', segment);
+        }
     }
 
      eventClicked(action: string, event: CalendarSchedulerEvent): void {

@@ -39,7 +39,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { SchedulerModule } from 'angular-calendar-scheduler';
 import { AppService} from './timetable/timetable-forms/app.services';
 import { AgmCoreModule } from '@agm/core';
-
+import { passwordResetComponent } from './passwordReset/passwordReset.component';
+import { passwordResetFormsComponent } from './passwordReset/passwordReset-forms/passwordReset-forms.component'
 export function tokenGetter(){
   return localStorage.getItem("jwt");
 }
@@ -65,7 +66,9 @@ export function tokenGetter(){
     ProfileComponent,
     ProfileFormsComponent,
     TimetableComponent,
-    TimetableFormsComponent
+    TimetableFormsComponent,
+    passwordResetComponent,
+    passwordResetFormsComponent
   ],
   imports: [
     BrowserModule,
@@ -87,6 +90,7 @@ export function tokenGetter(){
       {path: 'clients', component: ClientsComponent},
       {path: 'services', component: ServicesComponent, canActivate:[AuthGuardService]},
       {path: 'profile', component: ProfileComponent, canActivate:[AuthGuardService]},
+      {path: 'passwordReset', component: passwordResetComponent},
       {path: 'login', component: LoginComponent},
       {path: 'servicesList', component: ServicesListComponent, canActivate:[AuthGuardService]},
       {path: 'timetable', component: TimetableComponent, canActivate:[AuthGuardService]},

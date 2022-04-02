@@ -32,6 +32,7 @@ export class OrdersService {
   }
    putReqHeaders = new HttpHeaders({
     'accept': 'text/json',
+    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
   });
   putOrder(order:Order){
     return this.http.put(this.putOrderURL,order,{headers:this.putReqHeaders})
