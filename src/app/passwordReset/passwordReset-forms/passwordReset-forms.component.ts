@@ -30,6 +30,7 @@ isProvider : boolean
 userName : string;
 logged_user : User;
 providerId : string;
+invalidCode : boolean;
 
   constructor(private router: Router, public service:LoginService, private store: Store<AppState>) {
   this.user$ = store.select('user');
@@ -58,10 +59,22 @@ providerId : string;
     this.service.verifyCode(this.CodeVerifydata).subscribe(
       response=>
       {
-        console.log('Password changed')
+        if(response)
+        {
+          console.log('Password changed')
+          this.invalidCode = false;
+          this.router.navigate(['/home']);
+        }
+        else
+        {
+          this.invalidCode = true;
+        }
+
       }, err => {
         console.log('Error while code checking')
+        this.invalidCode = true;
       });
+  
     }
   
 }

@@ -1,114 +1,10 @@
-<!-- <form novalidate #form="ngForm" (submit)="onSubmit(form)">
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>
-                Login
-            </label>
-            <div contenteditable="true" *ngIf="profile$ | async as u">
-                <h2>{{u.email}}</h2>
-                <input type="hidden" value="u.email"  placeholder="User login" name="Login" #Login="ngModel" [(ngModel)]="service.formData.Login">
-            </div>
-        </div>
-        <div class="form-group col-md-6">
-            <label>Name</label>
-            <div contenteditable="true" *ngIf="profile$ | async as u">
-                <h2>{{u.name}}</h2>
-            <input type="hidden" value="u.name" placeholder="User name" name="Name" #Name="ngModel" [(ngModel)]="service.formData.Name">
-            </div>
-        </div>
-    </div>
-    <div class="form-row">
-            <div class="form-group col-md-6">
-                <label>New Password</label>
-                <div contenteditable="true" *ngIf="profile$ | async as u">
-                    <input type="hidden"  class="form-control form-control-lg" placeholder="User password" name="Password" #Password="ngModel" [(ngModel)]="service.formData.Password">
-                </div>
-            </div>
-            <div class="form-group col-md-6">           
-                <label>Retype New password</label>
-                <div contenteditable="true" *ngIf="profile$ | async as u">
-                    <input type="hidden" class="form-control form-control-lg" placeholder="User password" name="Password" #Password="ngModel" [(ngModel)]="service.formData.Password">
-                </div>
-            </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Company email</label>
-            <div contenteditable="true" *ngIf="profile$ | async as u">
-            <h2>{{u.email}}</h2>
-            <input type="hidden" class="form-control form-control-lg" placeholder="User email" name="Email" #Email="ngModel" [(ngModel)]="service.formData.Email">
-            </div>
-        </div>
-        <div class="form-group col-md-6">
-            <label>Business phone</label>
-            <div contenteditable="true" *ngIf="profile$ | async as u">
-                <h2>{{u.phone}}</h2>
-                <input type="hidden" class="form-control form-control-lg" placeholder="User phone" name="Phone" #Phone="ngModel" [(ngModel)]="service.formData.Phone">
-            </div>
-        </div>
-    </div>
-        <div class="form-group">
-            <label>Service Description</label>
-            <div contenteditable="true" *ngIf="profile$ | async as u">
-                <h2>{{u.description}}</h2>
-                <input type="hidden" class="form-control form-control-lg" placeholder="User description" name="Description" #Description="ngModel" [(ngModel)]="service.formData.Description">
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Logo</label>
-            <div contenteditable="true" *ngIf="profile$ | async as u">
-                <h2>{{u.logo}}</h2>
-                <input type="hidden" class="form-control form-control-lg" placeholder="User logo" name="Logo" #Logo="ngModel" [(ngModel)]="service.formData.Logo">
-            </div>
-        </div>
-        <div class="form-group">
-            <label>City</label>
-            <div contenteditable="true" *ngIf="profile$ | async as u">
-                <h2>{{u.city}}</h2>
-                <input type="hidden" class="form-control form-control-lg" placeholder="City" name="City" #City="ngModel" [(ngModel)]="service.formData.City">
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Street</label>
-            <div contenteditable="true" *ngIf="profile$ | async as u">
-                <h2>{{u.street}}</h2>
-                <input type="hidden" class="form-control form-control-lg" placeholder="Street" name="Street" #Street="ngModel" [(ngModel)]="service.formData.Street">
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Number</label>
-            <div contenteditable="true" *ngIf="profile$ | async as u">
-                <h2>{{u.number}}</h2>
-                <input type="hidden" class="form-control form-control-lg" placeholder="Number" name="Number" #Number="ngModel" [(ngModel)]="service.formData.Number">
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Postal Code</label>
-            <div contenteditable="true" *ngIf="profile$ | async as u">
-                <h2>{{u.postalCode}}</h2>
-                <input type="hidden" class="form-control form-control-lg" placeholder="PostalCode" name="PostalCode" #PostalCode="ngModel" [(ngModel)]="service.formData.PostalCode">
-            </div>
-        </div>
-        <div class="form-group">
-            <button class="btn btn-info btn-lg" type="submit">SUBMIT</button>
-        </div>
-    </form>
-
-
-
-
-
- -->
-
-<!--<form novalidate #form="ngForm" (submit)="onSubmit(form)">-->
-<form novalidate #form="ngForm" (ngSubmit)="SaveProfile(form.value)" class="container rounded bg-white mt-5 mb-5"
-    autocomplete="off">
+<form novalidate #form="ngForm" (ngSubmit)="SaveProfile(form.value)" class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                <img class="rounded-circle mt-5" width="150px"
-                    src="{{profileData.Logo}}"><span
-                    class="font-weight-bold"></span><span class="text-black-50"></span><span>
+                <img class="rounded-circle mt-5" width="150px" src="{{profileData.Logo}}">
+                <span class="font-weight-bold">
+                </span><span class="text-black-50"></span><span>
                 </span>
             </div>
         </div>
@@ -117,38 +13,45 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
-                <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Email</label><input type="text" class="form-control"
-                            placeholder="User login" name="Login" #Login="ngModel" [(ngModel)]="profileData.Email">
+                <div class="form-row row mt-2">
+                    <div class="form-group col-md-6"><label class="labels">Email</label><input type="email" required
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control"
+                            placeholder="User email" name="Email" #Email="ngModel" [(ngModel)]="profileData.Email">
+                            <div *ngIf="Email.errors?.['required']" class="customAlertText"><small>Email address is
+                                required.</small></div>
+                        <div *ngIf="Email.errors?.['pattern'] && (Email.dirty || Email.touched)"><small>Incorrect email
+                                address</small></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="form-group col-md-6">
                         <label class="labels">Name</label>
                         <input type="text" class="form-control" id="Name" placeholder="User name" name="Name"
                             #Name="ngModel" [(ngModel)]="profileData.Name">
                     </div>
-                    <div class="col-md-6"><label class="labels">Phone
-                            Number</label><input type="text" class="form-control" placeholder="User phone" name="Phone"
-                            #Phone="ngModel" [(ngModel)]="profileData.Phone">
+                    <div class="form-group col-md-6"><label class="labels">Phone
+                            Number</label><input type="text" required pattern="[0-9]{9}" required class="form-control"
+                            placeholder="User phone" name="Phone" #Phone="ngModel" [(ngModel)]="profileData.Phone">
+                        <div *ngIf="Phone.errors?.['pattern'] && (Phone.dirty || Phone.touched)"
+                            class="customAlertText"><small>Phone number must contain 9 numbers</small></div>
+                        <div *ngIf="Phone.errors?.['required']" class="customAlertText"><small>Phone number is
+                                required.</small></div>
                     </div>
-                        <div class="col-md-6"><label class="labels">City</label><input type="text" class="form-control"
-                                placeholder="City" name="City" #City="ngModel" [(ngModel)]="profileData.City"></div>
-                        <div class="col-md-6"><label class="labels">Street</label><input type="text"
-                                class="form-control" placeholder="Street" name="Street" #Street="ngModel"
-                                [(ngModel)]="profileData.Street"></div>
-                        <div class="col-md-6"><label class="labels">Postcode</label><input type="text"
-                                class="form-control" name="PostalCode" #PostalCode="ngModel"
-                                [(ngModel)]="profileData.PostalCode"></div>
-                        <div class="col-md-6"><label class="labels">Street number</label><input type="text"
-                                class="form-control" name="Number" #Number="ngModel" [(ngModel)]="profileData.Number">
-                        </div>
+                    <div class="form-group col-md-6"><label class="labels">City</label><input type="text"
+                            class="form-control" placeholder="City" name="City" #City="ngModel"
+                            [(ngModel)]="profileData.City"></div>
+                    <div class="form-group col-md-6"><label class="labels">Street</label><input type="text"
+                            class="form-control" placeholder="Street" name="Street" #Street="ngModel"
+                            [(ngModel)]="profileData.Street"></div>
+                    <div class="form-group col-md-6"><label class="labels">Postcode</label><input type="text"
+                            pattern="[0-9]{2}-[0-9]{3}" class="form-control" name="PostalCode" #PostalCode="ngModel"
+                            [(ngModel)]="profileData.PostalCode"></div>
+                    <div *ngIf="PostalCode.errors?.['pattern'] && (PostalCode.dirty || PostalCode.touched)"
+                        class="customAlertText"><small>Incorrect postal code</small></div>
+                    <div class="form-group col-md-6"><label class="labels">Street number</label><input type="text"
+                            class="form-control" name="Number" #Number="ngModel" [(ngModel)]="profileData.Number">
+                    </div>
 
-                        <div class="col-md-6"><label class="labels">Logo link</label><input type="text"
+                    <div class="form-group col-md-6"><label class="labels">Logo link</label><input type="text"
                             class="form-control" name="Logo" #Logo="ngModel" [(ngModel)]="profileData.Logo">
-                    </div>
-
-                
-                    <div class="row mt-3">
-
                     </div>
 
                     <!-- <div class="col-md-6"><label class="labels">Password</label><input type="password"
@@ -161,7 +64,8 @@
                             class="form-control" placeholder="Reply your new password" name="Password"
                             #Password="ngModel" [(ngModel)]="profileData.NewPassword" autocomplete="off"></div> -->
                 </div>
-                <div class="mt-5 text-center"><button class="btn btn-outline-dark profile-button" type="submit">Save
+                <div class="py-3 mt-5 text-center"><button class="btn btn-outline-dark profile-button" type="submit"
+                        [disabled]="!form.valid">Save
                         Profile</button></div>
             </div>
         </div>

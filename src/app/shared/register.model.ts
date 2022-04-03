@@ -1,6 +1,7 @@
 export class Register {
     Login:string='';
     Password:string='';
+    PasswordR:string='';
     Name:string='';
     Email:string='';
     Phone:string='';

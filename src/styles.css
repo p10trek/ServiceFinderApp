@@ -18,3 +18,7 @@ table tbody tr:hover {
 input.invalid{
     border-color:red;
 }
+.customAlertText{
+    font-size: small;
+    color: red;
+}

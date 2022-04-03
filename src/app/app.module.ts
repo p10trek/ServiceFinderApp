@@ -41,6 +41,8 @@ import { AppService} from './timetable/timetable-forms/app.services';
 import { AgmCoreModule } from '@agm/core';
 import { passwordResetComponent } from './passwordReset/passwordReset.component';
 import { passwordResetFormsComponent } from './passwordReset/passwordReset-forms/passwordReset-forms.component'
+import { ContactComponent } from './contact/contact.component';
+import { AboutComponent } from './about/about.component';
 export function tokenGetter(){
   return localStorage.getItem("jwt");
 }
@@ -68,7 +70,8 @@ export function tokenGetter(){
     TimetableComponent,
     TimetableFormsComponent,
     passwordResetComponent,
-    passwordResetFormsComponent
+    passwordResetFormsComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
@@ -85,9 +88,11 @@ export function tokenGetter(){
     StoreModule.forRoot({userName:StringReducer,user:userReducer,cart:cartReducer}
     ),
     RouterModule.forRoot([
+      {path: '', redirectTo: '/home', pathMatch: 'full'},
       {path: 'home', component: HomeComponent},
       {path: 'register', component: RegisterComponent},
-      {path: 'clients', component: ClientsComponent},
+      {path: 'contact', component: ContactComponent},
+      {path: 'about', component: AboutComponent},
       {path: 'services', component: ServicesComponent, canActivate:[AuthGuardService]},
       {path: 'profile', component: ProfileComponent, canActivate:[AuthGuardService]},
       {path: 'passwordReset', component: passwordResetComponent},
