@@ -13,8 +13,10 @@
 <ng-template class="col-md-12" #content let-c="close" let-d="dismiss">
   <div class="modal-header" class="col-md-24">
     <div class="float-end">
-      
-      <button type="button" class="close float-right" id="closeModalButton1" aria-label="Close" (click)="d('Cross click')">
+      <button id="closeModalButton1" type="button" [hidden]="true" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+      <button type="button" class="close float-right"  aria-label="Close" (click)="closeModal1($event)">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -69,7 +71,10 @@
 <ng-template #timeTable let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
-    <button type="button" class="close" aria-label="Close" id="closeModalButton2" (click)="d('Cross click')">
+    <button id="closeModalButton2" type="button" [hidden]="true" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+  </button>
+    <button type="button" class="close" aria-label="Close"  (click)="closeModal2($event)">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -79,7 +84,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="closeModals($event)">Save</button>
+    <!--<button type="button" class="btn btn-outline-dark" (click)="closeModals($event)">Save</button>-->
   </div>
 
 </ng-template>

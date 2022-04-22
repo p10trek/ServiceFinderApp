@@ -89,12 +89,16 @@ export class TimetableFormsComponent implements OnInit {
             title: 'Delete',
             onClick: (event: CalendarSchedulerEvent): void => {
                 console.log('Pressed action \'Delete\' on event ' + event.id);
-                this.service.deleteOrder(event.id).subscribe(
+                var deleting = this.service.deleteOrder(event.id)
+                deleting.subscribe(
                     res=>
                         {
                             console.log((<any>res).message);
                         })    
+                        deleting.toPromise().then(x=> new Promise(resolve => setTimeout(() => resolve(this.appService.getEvents(this.actions)
+                        .then((events: CalendarSchedulerEvent[]) => this.events = events)), 1)));
             }
+            
 
         },
         {
@@ -303,7 +307,7 @@ export class TimetableFormsComponent implements OnInit {
         if(isProvider == false)
         {
             var durationSum = 0;
-            var UTCoffset = 1;
+            var UTCoffset = +2;
             var providerId = '';
             this.cart$ = this.store.select('cart');
             this.cart$.subscribe(r=>providerId = r.provider)

@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   latitude = 51.1915270197085;
   longitude = 15.2995830197085;
   remButton: HTMLElement;
-  constructor(@Inject(DOCUMENT) document,private store: Store<CartState>,private router: Router, private jwtHelper: JwtHelperService,config: NgbModalConfig, private modalService: NgbModal,public service:HomeService) {     
+  constructor(@Inject(DOCUMENT) document,private store: Store<CartState>,private router: Router, private jwtHelper: JwtHelperService,config: NgbModalConfig, private modalService: NgbModal,public service:HomeService) { 
   config.backdrop = 'static';
   config.keyboard = false;
   this.cart$ = this.store.select('cart')
@@ -42,7 +42,6 @@ cart$ : Observable<Carton>
   public onMapReady(e) {
     this.map = e;
   }
-
   isUserAuthenticated(){
     const token: string = localStorage.getItem("jwt")!;
     if(token){
@@ -85,13 +84,23 @@ cart$ : Observable<Carton>
   openTimeTable(e){
       console.log('otwieram termianrz!!!:');
       this.modalService.open(this.timeTable, { size: 'lg', backdrop: 'static' });
-      
+       
   }
 
-  closeModals(e){
+  closeModal1(e){
+    this.foo2();
+    document.getElementById('closeModalButton1')!.click();
+  }
+  closeModal2(e){
+    this.foo2();
+    document.getElementById('closeModalButton1')!.click();
+    document.getElementById('closeModalButton2')!.click();
     //todo backup
   }
-
+foo2(){
+  console.log('Zamykam modal');
+  this.store.dispatch(new CartActions.resetCart());
+}
   addToCart(e,itemId:string,duration:number){
     const cartItem : CartItem = {
        cartItem : itemId,
