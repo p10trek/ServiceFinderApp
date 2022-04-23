@@ -35,7 +35,9 @@ export class OrdersService {
     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
   });
   putOrder(order:Order){
-    return this.http.put(this.putOrderURL,order,{headers:this.putReqHeaders})
+    var result =  this.http.put(this.putOrderURL,order,{headers:this.putReqHeaders})
+    this.putReqHeaders  = new HttpHeaders()
+    return result;
   }
   deleteOrder(orderId:string){
     let queryParams = new HttpParams();

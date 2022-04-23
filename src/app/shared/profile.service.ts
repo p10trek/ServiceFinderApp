@@ -1,31 +1,57 @@
 import { Injectable } from '@angular/core';
-import {Register} from './register.model'
+import { Register } from './register.model'
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from 'rxjs';
 import { User } from '../Model/User';
 import { Profile } from './profile.model';
+import { Store } from '@ngrx/store';
+interface AppState {
+  // isLogged:boolean,
+  //userName:string, 
+  user: User
+}
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
-   reqHeaders = new HttpHeaders({
-    'accept': 'text/plain',
-    'Authorization': `Bearer ${localStorage.getItem("jwt")}` 
-  });
-  user$ : Observable<User>;
-  constructor(private http: HttpClient) { }
+
+  user$: Observable<User>;
+  constructor(private http: HttpClient, private store: Store<AppState>) { }
   readonly GetProviderURL = 'https://localhost:44309/GetProfile'
   readonly EditProviderURL = 'https://localhost:44309/EditProvider'
-  formData:Profile =new Profile();
+  readonly EditUserURL = 'https://localhost:44309/EditUser'
+  formData: Profile = new Profile();
 
-  getProfile(){
-      return this.http.get(this.GetProviderURL,{headers:this.reqHeaders});
+  getProfile() {
+    return this.http.get(this.GetProviderURL, {
+      headers: new HttpHeaders({
+        'accept': 'text/plain',
+        'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+      })
+    });
   }
-  editProfile(profileData : Profile){
-      const params = JSON.stringify(profileData);
+  editProfile(profileData: Profile) {
+    this.user$ = this.store.select('user')
+    const params = JSON.stringify(profileData);
+    var isProvider = false;
+    this.user$.subscribe(u => isProvider = u.isProvider);
+    if (isProvider == false) {
+      return this.http.post(this.EditUserURL, params, {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+        })
+      }
+      );
+    }
+    else {
       return this.http.post(this.EditProviderURL, params, {
         headers: new HttpHeaders({
           "Content-Type": "application/json",
-          'Authorization': `Bearer ${localStorage.getItem("jwt")}` 
+          'Authorization': `Bearer ${localStorage.getItem("jwt")}`
         })
-});}}
+      }
+      );
+    }
+  }
+}

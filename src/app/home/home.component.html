@@ -21,9 +21,13 @@
       </button>
     </div>
     <div style="height: 150px;" class="text-center">
-      <img src="https://image.spreadshirtmedia.net/image-server/v1/mp/compositions/T6A1MPA4289PT17X18Y59D168690668FS2898/views/1,width=550,height=550,appearanceId=1,backgroundColor=FFFFFF,noPt=true/logo-mechanika-herb-cool-koszulka-meska.jpg" class="img-fluid mh-100" alt="Responsive image"  />
+      <img src="{{getProviderServices[0]?.providerLogo}}" class="img-fluid mh-100" alt="Responsive image"  />
     </div>
-    <h4 class="modal-title ml-5 text-center" id="modal-basic-title">Choose services from list</h4>
+    <div class="text-center">
+      <h4>{{getProviderServices[0]?.providerName}}</h4>
+      <h6>{{getProviderServices[0]?.providerDescription}}</h6>
+    </div>
+    <h6 class="modal-title ml-5 text-center" id="modal-basic-title">Choose services from list</h6>
     </div>
   <div class="modal-body">
     <div class="container">

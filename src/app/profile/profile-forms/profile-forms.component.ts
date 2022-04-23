@@ -4,6 +4,13 @@ import { Observable,of } from 'rxjs';
 import { Profile, ProfileData } from 'src/app/shared/profile.model';
 import { ProfileService } from 'src/app/shared/profile.service';
 import { Register } from 'src/app/shared/register.model';
+import { User } from 'src/app/Model/User';
+import { Store } from '@ngrx/store';
+interface AppState{
+  // isLogged:boolean,
+   //userName:string, 
+   user:User
+ }
 @Component({
   selector: 'app-profile-forms',
   templateUrl: './profile-forms.component.html',
@@ -11,9 +18,11 @@ import { Register } from 'src/app/shared/register.model';
   ]
 })
 export class ProfileFormsComponent implements OnInit {
-
+  user$ : Observable<User>;
   profileData : any
-  constructor(public service:ProfileService) { }
+  constructor(public service:ProfileService, private store: Store<AppState>) {
+    this.user$ = this.store.select('user')
+   }
   profile$:Observable<ProfileData>
   
   ngOnInit(): void {

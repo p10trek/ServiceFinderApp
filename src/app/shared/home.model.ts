@@ -25,6 +25,10 @@ export class GetProviderServices {
 }
   
 export class Daum {
+     providerLogo : string
+     providerDescription: string
+     providerName : string
+     phone : string
      id: string
      serviceName: string
      providerId: string
