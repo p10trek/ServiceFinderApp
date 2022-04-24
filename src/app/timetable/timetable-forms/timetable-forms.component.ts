@@ -38,6 +38,7 @@ import { CartItem, Carton } from 'src/app/Model/Carton';
 import { DatePipe } from '@angular/common'
 import * as moment from 'moment';
 import { NgForm } from '@angular/forms';
+//import { Console } from 'console';
 
 interface CartState{
     cart:Carton
@@ -57,7 +58,8 @@ interface AppState{
 
 export class TimetableFormsComponent implements OnInit {
      title: string = 'Angular Calendar Scheduler Demo';
-    @ViewChild('content')  content: any;
+    @ViewChild('MoveService')  MoveService: any;
+    @ViewChild('NewService')  NewService: any;
      CalendarView = CalendarView;
 
      view: CalendarView = CalendarView.Week;
@@ -253,7 +255,10 @@ export class TimetableFormsComponent implements OnInit {
         return result;
     }
     
-    serviceTime: string;
+    serviceTime: Date;
+    serviceDuration: number;
+    DescriptionArea: string;        
+    UTCoffset : number = +2;
     SaveChanges(e){
         console.log(this.serviceTime)
         let tempDate = new Date(this.serviceTime);
@@ -282,8 +287,6 @@ export class TimetableFormsComponent implements OnInit {
         
             moveOrder.toPromise().then(x=> new Promise(resolve => setTimeout(() => resolve(this.appService.getEvents(this.actions)
             .then((events: CalendarSchedulerEvent[]) => this.events = events)), 1)));
-        
-
     }
                   
 
@@ -304,10 +307,10 @@ export class TimetableFormsComponent implements OnInit {
         console.log("Hello segment!!!");
         var isProvider = false;
         this.user$.subscribe(u=>isProvider = u.isProvider);
+        var durationSum = 0;
+        this.serviceTime = segment.date;
         if(isProvider == false)
         {
-            var durationSum = 0;
-            var UTCoffset = +2;
             var providerId = '';
             this.cart$ = this.store.select('cart');
             this.cart$.subscribe(r=>providerId = r.provider)
@@ -321,9 +324,9 @@ export class TimetableFormsComponent implements OnInit {
                 
                 let startDate = new Date(formattedDate);
                 let tempStartDate = new Date(formattedDate);
-                tempStartDate.setHours(startDate.getHours()+durationSum+UTCoffset);
+                tempStartDate.setHours(startDate.getHours()+durationSum+this.UTCoffset);
                 let endDate = new Date(formattedDate)
-                endDate.setHours(startDate.getHours()+durationSum+item.duration+UTCoffset);
+                endDate.setHours(startDate.getHours()+durationSum+item.duration+this.UTCoffset);
                 
                 let order = new Order;
                 order.providerId = providerId;
@@ -352,12 +355,46 @@ export class TimetableFormsComponent implements OnInit {
             // console.log('segmentClicked Action', action);
             // console.log('segmentClicked Segment', segment);
         }
+        else{
+            
+
+            this.modalService.open(this.NewService);
+           
+           
+           
+        }
+
+    }
+
+    addOrderByProvider(e){
+        var providerID = ''
+        this.user$.subscribe(r=>providerID = r.providerID)
+        console.log('provider is:'+providerID)
+        let formattedDate = (moment(this.serviceTime)).format('YYYY-MM-DD HH:mm:ss')   
+        let startDate = new Date(formattedDate);
+        let tempStartDate = new Date(formattedDate);
+        tempStartDate.setHours(startDate.getHours()+this.UTCoffset);
+        let endDate = new Date(formattedDate)
+        let offset: number = +this.serviceDuration + +this.UTCoffset
+        endDate.setHours(startDate.getHours()+offset);
+        let order = new Order;
+        order.providerId = providerID;
+        order.startDate = tempStartDate;
+        order.endDate = endDate
+        order.serviceId = '00000000-0000-0000-0000-000000000000';
+        this.service.putOrder(order) 
+        .subscribe(
+            res=>
+            {
+                console.log('Service succesfully added');
+                console.log((<any>res).message)
+            });
     }
 
      eventClicked(action: string, event: CalendarSchedulerEvent): void {
         console.log('eventClicked Action', action);
         console.log('eventClicked Event', event);
-        this.modalService.open(this.content);
+        this.modalService.open(this.MoveService);
         this.serviceIdToMove = event.id;
     }
 

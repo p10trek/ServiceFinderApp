@@ -6,6 +6,7 @@ import { ProfileService } from 'src/app/shared/profile.service';
 import { Register } from 'src/app/shared/register.model';
 import { User } from 'src/app/Model/User';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 interface AppState{
   // isLogged:boolean,
    //userName:string, 
@@ -20,7 +21,7 @@ interface AppState{
 export class ProfileFormsComponent implements OnInit {
   user$ : Observable<User>;
   profileData : any
-  constructor(public service:ProfileService, private store: Store<AppState>) {
+  constructor(public service:ProfileService, private store: Store<AppState>,private router: Router) {
     this.user$ = this.store.select('user')
    }
   profile$:Observable<ProfileData>
@@ -54,6 +55,6 @@ export class ProfileFormsComponent implements OnInit {
         console.log((<any>response).data);
         console.log('sended');
       })
-    
+    this.router.navigate(['/home']);
   }
 }

@@ -30,13 +30,12 @@ export class OrdersService {
     const t =  this.http.get(this.getFreeTermsURL,{headers:this.reqHeaders, params:queryParams});
     return t
   }
-   putReqHeaders = new HttpHeaders({
-    'accept': 'text/json',
-    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
-  });
+
   putOrder(order:Order){
-    var result =  this.http.put(this.putOrderURL,order,{headers:this.putReqHeaders})
-    this.putReqHeaders  = new HttpHeaders()
+    var result =  this.http.put(this.putOrderURL,order,{headers:new HttpHeaders({
+      'accept': 'text/json',
+      'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+    })})
     return result;
   }
   deleteOrder(orderId:string){

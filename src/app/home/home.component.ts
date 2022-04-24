@@ -9,6 +9,7 @@ import { GetProvidersView,Datum, Daum} from '../shared/home.model';
 import { HomeService } from '../shared/home.serice';
 import * as CartActions from 'src/app/cart.actions'
 import { DOCUMENT } from '@angular/common';
+import { User } from 'src/app/Model/User';
 import { createIsExtensionOrMonitorPresent } from '@ngrx/store-devtools/src/instrument';
 interface CartState{
   // isLogged:boolean,
@@ -16,6 +17,9 @@ interface CartState{
 
    cart:Carton
  }
+ interface AppState{
+  user:User
+}
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -27,10 +31,11 @@ export class HomeComponent implements OnInit {
   latitude = 51.1915270197085;
   longitude = 15.2995830197085;
   remButton: HTMLElement;
-  constructor(@Inject(DOCUMENT) document,private store: Store<CartState>,private router: Router, private jwtHelper: JwtHelperService,config: NgbModalConfig, private modalService: NgbModal,public service:HomeService) { 
+  constructor(@Inject(DOCUMENT) document,private store: Store<CartState>, private Userstore:Store<AppState>,private router: Router, private jwtHelper: JwtHelperService,config: NgbModalConfig, private modalService: NgbModal,public service:HomeService) { 
   config.backdrop = 'static';
   config.keyboard = false;
   this.cart$ = this.store.select('cart')
+  this.user$ = this.Userstore.select('user');
 }
 
 getProvidersView : Datum[]
@@ -39,6 +44,7 @@ map : google.maps.Map;
 choosedMarker : string;
 isChecked:boolean;
 cart$ : Observable<Carton>
+user$ : Observable<User>;
   public onMapReady(e) {
     this.map = e;
   }
@@ -59,6 +65,14 @@ cart$ : Observable<Carton>
       res=>{
         this.getProvidersView =(<any>res).data;
         console.log((<any>res).message)
+        var isProvider;
+        this.user$.subscribe(u=>isProvider = u.isProvider);
+        if(isProvider==true)
+        {
+          var providerId;
+          this.user$.subscribe(u=>providerId = u.providerID)
+          this.getProvidersView = this.getProvidersView.filter(t=>t.id==providerId)
+        }
         this.getProvidersView.forEach(provider=>{
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(provider.lat, provider.lng),

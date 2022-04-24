@@ -1,11 +1,11 @@
-
 <div class="calendar-container" *ngIf="events">
     <div class="row mt-4 p-3 d-flex justify-content-center">
-      
+
         <div class="col-md-6 text-center pl-2 ml-2">
             <!-- <h3 class="mt-0">{{ viewDate | calendarSchedulerDate:(view + 'ViewTitle'):locale:weekStartsOn:excludeDays:viewDays:startsWithToday }}</h3> -->
-            <select #viewDayOptionSelect1 class="form-control" [ngModel]="viewDays" (change)="viewDaysOptionChanged(viewDayOptionSelect1.value)">
-                <option  [value]=1>Today</option>
+            <select #viewDayOptionSelect1 class="form-control" [ngModel]="viewDays"
+                (change)="viewDaysOptionChanged(viewDayOptionSelect1.value)">
+                <option [value]=1>Today</option>
                 <option [value]=3>Three Days</option>
                 <option [value]=7>Week</option>
             </select>
@@ -21,83 +21,52 @@
                 </div> -->
                 <div class="col-6 col-md-12 ">
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-dark"
-                                mwlCalendarPreviousView
-                                [view]="view"
-                                [(viewDate)]="viewDate"
-                                [daysInWeek]="viewDays"
-                                [excludeDays]="excludeDays"
-                                [disabled]="prevBtnDisabled"
-                                (viewDateChange)="dateOrViewChanged()">
+                        <button type="button" class="btn btn-outline-dark" mwlCalendarPreviousView [view]="view"
+                            [(viewDate)]="viewDate" [daysInWeek]="viewDays" [excludeDays]="excludeDays"
+                            [disabled]="prevBtnDisabled" (viewDateChange)="dateOrViewChanged()">
                             <span class="valign-center">
-                                <i title="Precedente"
-                                    class="material-icons md-18">Previous</i>
+                                <i title="Precedente" class="material-icons md-18">Previous</i>
                             </span>
                         </button>
-                        <button type="button" name="TodayButton" class="btn btn-outline-dark"
-                                mwlCalendarToday
-                                [(viewDate)]="viewDate"
-                                (viewDateChange)="dateOrViewChanged()">
+                        <button type="button" name="TodayButton" class="btn btn-outline-dark" mwlCalendarToday
+                            [(viewDate)]="viewDate" (viewDateChange)="dateOrViewChanged()">
                             <span class="valign-center">
-                                <i title="Oggi"
-                                    class="material-icons md-18">today</i>
+                                <i title="Oggi" class="material-icons md-18">today</i>
                             </span>
                         </button>
-                        <button type="button" class="btn btn-outline-dark"
-                                mwlCalendarNextView
-                                [view]="view"
-                                [(viewDate)]="viewDate"
-                                [daysInWeek]="viewDays"
-                                [excludeDays]="excludeDays"
-                                [disabled]="nextBtnDisabled"
-                                (viewDateChange)="dateOrViewChanged()">
+                        <button type="button" class="btn btn-outline-dark" mwlCalendarNextView [view]="view"
+                            [(viewDate)]="viewDate" [daysInWeek]="viewDays" [excludeDays]="excludeDays"
+                            [disabled]="nextBtnDisabled" (viewDateChange)="dateOrViewChanged()">
                             <span class="valign-center">
-                                <i title="Successivo"
-                                    class="material-icons md-18">Next</i>
+                                <i title="Successivo" class="material-icons md-18">Next</i>
                             </span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-  </div>
-  <br>
-  <div [ngSwitch]="view">
-        <calendar-scheduler-view *ngSwitchCase="CalendarView.Week"
-                                [viewDays]="viewDays"
-                                [viewDate]="viewDate"
-                                [events]="events"
-                                [locale]="locale"                               
-                                [responsive]="false"
-                                [weekStartsOn]="weekStartsOn"
-                                [excludeDays]="excludeDays"
-                                [startsWithToday]="startsWithToday"
-                                [hourSegments]="hourSegments"
-                                [dayStartHour]="dayStartHour"
-                                [dayEndHour]="dayEndHour"
-                                [dayModifier]="dayModifier"
-                                [hourModifier]="hourModifier"
-                                [segmentModifier]="segmentModifier"
-                                [eventModifier]="eventModifier"
-                                [showEventActions]="true"
-                                [showSegmentHour]="true"
-                                [zoomEventOnHover]="true"
-                                (viewDaysChanged)="viewDaysChanged($event)"
-                                (dayHeaderClicked)="dayHeaderClicked($event.day)"
-                                (hourClicked)="hourClicked($event.hour)"
-                                (segmentClicked)="segmentClicked('Clicked', $event.segment)"
-                                (eventClicked)="eventClicked('Clicked', $event.event)"
-                                (eventTimesChanged)="eventTimesChanged($event)"
-                                [refresh]="refresh">
+    </div>
+    <br>
+    <div [ngSwitch]="view">
+        <calendar-scheduler-view *ngSwitchCase="CalendarView.Week" [viewDays]="viewDays" [viewDate]="viewDate"
+            [events]="events" [locale]="locale" [responsive]="false" [weekStartsOn]="weekStartsOn"
+            [excludeDays]="excludeDays" [startsWithToday]="startsWithToday" [hourSegments]="hourSegments"
+            [dayStartHour]="dayStartHour" [dayEndHour]="dayEndHour" [dayModifier]="dayModifier"
+            [hourModifier]="hourModifier" [segmentModifier]="segmentModifier" [eventModifier]="eventModifier"
+            [showEventActions]="true" [showSegmentHour]="true" [zoomEventOnHover]="true"
+            (viewDaysChanged)="viewDaysChanged($event)" (dayHeaderClicked)="dayHeaderClicked($event.day)"
+            (hourClicked)="hourClicked($event.hour)" (segmentClicked)="segmentClicked('Clicked', $event.segment)"
+            (eventClicked)="eventClicked('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)"
+            [refresh]="refresh">
         </calendar-scheduler-view>
     </div>
 </div>
-<ng-template #content let-c="close" let-d="dismiss">
+<ng-template #MoveService let-c="close" let-d="dismiss">
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
-      <button type="button" class="close" id="CloseCalendar" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+        <h4 class="modal-title" id="modal-basic-title">Change date of Service</h4>
+        <button type="button" class="close" id="CloseCalendar" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
         <div class="container">
@@ -105,15 +74,56 @@
                 <label for="ServiceTime">Change date of service start</label><br>
                 <input type="datetime-local" id="ServiceTime" name="ServiceTime" [(ngModel)]="serviceTime">
             </form>
-      </div>
-      </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="SaveChanges($event)">Save</button>
+        </div>
     </div>
-  
-  </ng-template>
-  <script>
-    function getInputValue(){
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="SaveChanges($event)">Save</button>
+    </div>
+</ng-template>
+<ng-template #NewService let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">plan the service</h4>
+        <button type="button" class="close" id="CloseCalendar" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="col-md-12 border-right">
+            <form action="/action_page.php">
+                <div class="form-group">
+                    <label for="ServiceDuration">Set service duration</label>
+                    <select class="form-control" id="ServiceDuration" name="ServiceDuration"
+                        [(ngModel)]="serviceDuration">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="DescriptionArea">Example textarea</label>
+                    <textarea class="form-control" id="DescriptionArea" rows="3" name="DescriptionArea"
+                    [(ngModel)]="DescriptionArea"></textarea>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="addOrderByProvider($event)">Save</button>
+    </div>
+
+</ng-template>
+
+
+<script>
+    function getInputValue() {
         // Selecting the input element and get its value 
         var inputVal = document.getElementById("myInput").value;
     }
