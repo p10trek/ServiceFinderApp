@@ -5,15 +5,15 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>Login</label>
-                        <input type="text" required minlength="5"  class="form-control form-control-lg" placeholder="User login" name="Login"
-                            #Login="ngModel" [(ngModel)]="service.formData.Login">
+                        <input type="text" required minlength="5" class="form-control form-control-lg"
+                            placeholder="User login" name="Login" #Login="ngModel" [(ngModel)]="service.formData.Login">
                     </div>
                     <div *ngIf="Login.errors?.['required']" class="customAlertText">
                         <small>Login is required.</small>
-                      </div>
-                      <div *ngIf="Login.errors?.['minlength']" class="customAlertText">
+                    </div>
+                    <div *ngIf="Login.errors?.['minlength']" class="customAlertText">
                         <small>Name must be at least 5 characters long.</small>
-                      </div>
+                    </div>
                     <div class="form-group col-md-6">
                         <label>Name</label>
                         <input type="text" class="form-control form-control-lg" placeholder="User name" name="Name"
@@ -24,38 +24,47 @@
                     <div class="form-group col-md-6">
                         <label>Password</label>
                         <input type="password" required class="form-control form-control-lg" placeholder="User password"
-                            name="Password" #Password="ngModel" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" [(ngModel)]="service.formData.Password">
-                            <div *ngIf="Password.errors?.['required'] && (Password.dirty || Password.touched)" class="customAlertText"><small>Password is required.</small></div>
-                            <div *ngIf="Password.errors?.['pattern'] && (Password.dirty || Password.touched)" class="customAlertText"><small>Password must contain at least one number and one uppercase and lowercase letter,<br> and at least 8 or more characters.</small></div>
+                            name="Password" #Password="ngModel" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            [(ngModel)]="service.formData.Password">
+                        <div *ngIf="Password.errors?.['required'] && (Password.dirty || Password.touched)"
+                            class="customAlertText"><small>Password is required.</small></div>
+                        <div *ngIf="Password.errors?.['pattern'] && (Password.dirty || Password.touched)"
+                            class="customAlertText"><small>Password must contain at least one number and one uppercase
+                                and lowercase letter,<br> and at least 8 or more characters.</small></div>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Retype password</label>
-                        <input type="password" confirmPassword class="form-control form-control-lg" placeholder="Reply user password"
-                            name="PasswordR" #PasswordR="ngModel" [(ngModel)]="service.formData.PasswordR" pattern="{{ Password.value }}" >
-                              <div *ngIf="PasswordR.errors?.['pattern']" class="customAlertText">
-                                <small>Password not match</small>
-                              </div>
+                        <input type="password" confirmPassword class="form-control form-control-lg"
+                            placeholder="Reply user password" name="PasswordR" #PasswordR="ngModel"
+                            [(ngModel)]="service.formData.PasswordR" pattern="{{ Password.value }}">
+                        <div *ngIf="PasswordR.errors?.['pattern']" class="customAlertText">
+                            <small>Password not match</small>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>Email</label>
-                        <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control form-control-lg" placeholder="User email" name="Email"
-                            #Email="ngModel" [(ngModel)]="service.formData.Email">
-                            <div *ngIf="Email.errors?.['pattern'] && (Email.dirty || Email.touched)" class="customAlertText"><small>Incorrect email address</small></div>
+                        <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                            class="form-control form-control-lg" placeholder="User email" name="Email" #Email="ngModel"
+                            [(ngModel)]="service.formData.Email">
+                        <div *ngIf="Email.errors?.['pattern'] && (Email.dirty || Email.touched)"
+                            class="customAlertText"><small>Incorrect email address</small></div>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Phone</label>
-                        <input type="tel" required class="form-control form-control-lg" placeholder="User phone" name="Phone"
-                            #Phone="ngModel" [(ngModel)]="service.formData.Phone" pattern="[0-9]{9}">
-                            <div *ngIf="Phone.errors?.['required']" class="customAlertText"><small>Phone number is required.</small></div>
-                            <div *ngIf="Phone.errors?.['pattern'] && (Phone.dirty || Phone.touched)" class="customAlertText"><small>Phone number must contain 9 numbers</small></div>
+                        <input type="tel" required class="form-control form-control-lg" placeholder="User phone"
+                            name="Phone" #Phone="ngModel" [(ngModel)]="service.formData.Phone" pattern="[0-9]{9}">
+                        <div *ngIf="Phone.errors?.['required']" class="customAlertText"><small>Phone number is
+                                required.</small></div>
+                        <div *ngIf="Phone.errors?.['pattern'] && (Phone.dirty || Phone.touched)"
+                            class="customAlertText"><small>Phone number must contain 9 numbers</small></div>
                     </div>
                 </div>
                 <div class="row mt-3 border-right">
                     <div class="form-row form-check-inline">
-                        <input class="form-check-input-outline-light text-dark" type="checkbox" id="inlineCheckbox2" value="option2"
-                            placeholder="Is provider" name="IsProvider" #serviceType="ngModel"
+                        <input class="form-check-input-outline-light text-dark" type="checkbox" id="inlineCheckbox2"
+                            value="option2" placeholder="Is provider" name="IsProvider" #serviceType="ngModel"
                             [(ngModel)]="service.formData.IsProvider" />
                         <label class="form-check-label mx-3" for="inlineCheckbox2">Are you Service Provider?</label>
                     </div>
@@ -89,14 +98,24 @@
                     </div>
                     <div class="form-group">
                         <label>Postal Code</label>
-                        <input type="text" pattern="[0-9]{2}-[0-9]{3}" class="form-control form-control-lg" placeholder="PostalCode"
-                            name="PostalCode" #PostalCode="ngModel" [(ngModel)]="service.formData.PostalCode">
-                            <div *ngIf="PostalCode.errors?.['pattern'] && (PostalCode.dirty || PostalCode.touched) && serviceType" class="customAlertText"><small>Incorrect postal code</small></div>
+                        <input type="text" pattern="[0-9]{2}-[0-9]{3}" class="form-control form-control-lg"
+                            placeholder="PostalCode" name="PostalCode" #PostalCode="ngModel"
+                            [(ngModel)]="service.formData.PostalCode">
+                        <div *ngIf="PostalCode.errors?.['pattern'] && (PostalCode.dirty || PostalCode.touched) && serviceType"
+                            class="customAlertText"><small>Incorrect postal code</small></div>
                     </div>
                 </div>
             </div>
+            <div class="row mt-3 border-right">
+                <div class="form-row form-check-inline">
+                    <input type="checkbox" name="RodoCheck" id="RodoCheck" (change)="checking($event)">
+                    <label class="form-check-label mx-3" for="RodoCheck">Wyrażam zgodę na przetwarzanie moich danych osobowych w celu korzystania z serwisu
+                        ServiceFinder.</label>
+                </div>
+            </div>
             <div class="form-group py-3">
-                <button class="btn btn-outline-dark btn-lg" type="submit" [disabled]="!form.valid">SUBMIT</button>
+                <button class="btn btn-outline-dark btn-lg" id="submitButton" type="submit" (click)="saveProfile($event)"
+                    [disabled]="(!isChecked || !form.valid)">SUBMIT</button>
             </div>
         </div>
     </div>
