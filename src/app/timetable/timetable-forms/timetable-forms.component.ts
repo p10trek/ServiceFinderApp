@@ -4,7 +4,8 @@ import { OrdersService } from 'src/app/shared/orders.service';
 import { Datum, FreeTermsBetween, FreeTermsView, Order, Orders, orders,MoveOrderResponse,moResp } from 'src/app/shared/orders.model';
 import {
     endOfDay,
-    addMonths
+    addMonths,
+    isThisHour
 } from 'date-fns';
 import {
     DAYS_IN_WEEK,
@@ -257,6 +258,11 @@ export class TimetableFormsComponent implements OnInit {
     
     serviceTime: Date;
     serviceDuration: number;
+    ServiceName : string;
+    ServicePrice : number
+    ServiceComment : string;
+
+
     DescriptionArea: string;        
     UTCoffset : number = +2;
     SaveChanges(e){
@@ -379,16 +385,25 @@ export class TimetableFormsComponent implements OnInit {
         endDate.setHours(startDate.getHours()+offset);
         let order = new Order;
         order.providerId = providerID;
+        order.duration = this.serviceDuration,
+        order.price = this.ServicePrice,
+        order.providerComment = this.ServiceComment,
+        order.serviceName = this.ServiceName,
         order.startDate = tempStartDate;
         order.endDate = endDate
         order.serviceId = '00000000-0000-0000-0000-000000000000';
-        this.service.putOrder(order) 
-        .subscribe(
-            res=>
-            {
+        var putOrder = this.service.putOrder(order) 
+  
+                this.ServiceName = '';
+                this.serviceDuration = 0;
+                this.ServicePrice = 0;
+                this.ServiceComment = '';
+                document.getElementById('ServiceModalButton1')!.click();
                 console.log('Service succesfully added');
-                console.log((<any>res).message)
-            });
+          
+  
+            putOrder.toPromise().then(x=> new Promise(resolve => setTimeout(() => resolve(this.appService.getEvents(this.actions)
+            .then((events: CalendarSchedulerEvent[]) => this.events = events)), 1)));
     }
 
      eventClicked(action: string, event: CalendarSchedulerEvent): void {

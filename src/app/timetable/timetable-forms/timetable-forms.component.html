@@ -82,8 +82,8 @@
 </ng-template>
 <ng-template #NewService let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">plan the service</h4>
-        <button type="button" class="close" id="CloseCalendar" aria-label="Close" (click)="d('Cross click')">
+        <h4 class="modal-title" id="modal-basic-title">Plan the service</h4>
+        <button type="button" class="close" id="ServiceModalButton1" aria-label="Close" (click)="d('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -91,7 +91,17 @@
         <div class="col-md-12 border-right">
             <form action="/action_page.php">
                 <div class="form-group">
-                    <label for="ServiceDuration">Set service duration</label>
+                    <label for="ServiceName">Service name</label>
+                    <input type="text" class="form-control" id="ServiceName" rows="3" name="ServiceName"
+                        [(ngModel)]="ServiceName">
+                </div>
+                <div class="form-group">
+                    <label for="ServicePrice">Service price</label>
+                    <input type="number" class="form-control" id="ServicePrice" rows="3" name="ServicePrice"
+                        [(ngModel)]="ServicePrice">
+                </div>
+                <div class="form-group">
+                    <label for="ServiceDuration">Service duration</label>
                     <select class="form-control" id="ServiceDuration" name="ServiceDuration"
                         [(ngModel)]="serviceDuration">
                         <option>1</option>
@@ -107,9 +117,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="DescriptionArea">Example textarea</label>
+                    <label for="DescriptionArea">Comment</label>
                     <textarea class="form-control" id="DescriptionArea" rows="3" name="DescriptionArea"
-                    [(ngModel)]="DescriptionArea"></textarea>
+                        [(ngModel)]="DescriptionArea">
+                </textarea>
                 </div>
 
             </form>

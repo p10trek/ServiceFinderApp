@@ -5,6 +5,7 @@ export class ServicesList{
   }
   
   export class Daum {
+    id : string
     serviceName: string
     price: number
     description: string

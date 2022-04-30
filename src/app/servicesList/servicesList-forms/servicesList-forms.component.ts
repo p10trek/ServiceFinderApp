@@ -17,6 +17,7 @@ export class ServicesListFormsComponent implements OnInit {
     this.service.getServices().subscribe(
       res=>{
         this.servicesList = (<any>res).data
+        console.log((<any>res).data),
        console.log((<any>res).message)
       },
     err=>{console.log(err);});
@@ -28,7 +29,26 @@ export class ServicesListFormsComponent implements OnInit {
        console.log((<any>res).message)
       },
     err=>{console.log(err);});
-}}
+}
+eraseService(serviceId){
+
+  if(confirm("Are you sure to delete this service?")) 
+  {
+    this.service.deleteServices(serviceId).subscribe(res=>
+      {
+        this.service.getServices().subscribe(
+          res=>{
+            this.servicesList = (<any>res).data
+           console.log((<any>res).message)
+          },
+        err=>{console.log(err);});
+
+      }
+      
+      );
+  }
+}
+}
 
 
 

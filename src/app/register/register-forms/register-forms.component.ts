@@ -18,7 +18,7 @@ isChecked : boolean = false
   onSubmit(form:NgForm){
     this.service.putProvider().subscribe(
       res=>{
-
+        form.resetForm();
       },
     err=>{console.log(err);});
   }

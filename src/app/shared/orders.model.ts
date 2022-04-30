@@ -31,12 +31,15 @@ export class Orders{
 export class Order  {
 
      customerId: string;
-    providerId: string;
-    serviceId: string;
+     price : number;
+     duration : number;
+     serviceName : string;
+     providerId: string;
+     serviceId: string;
      customerComment: string;
      providerComment: string;
-    startDate: Date;
-    endDate: Date;
+     startDate: Date;
+     endDate: Date;
 
 }
 

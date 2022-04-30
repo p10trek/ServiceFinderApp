@@ -11,17 +11,25 @@ import { User } from 'src/app/Model/User';
   providedIn: 'root'
 })
 export class ServicesServiceList {
-  reqHeaders = new HttpHeaders({
-    'accept': 'text/plain',
-   'Authorization': `Bearer ${localStorage.getItem("jwt")}`
-   
- });
+
   constructor(private http: HttpClient) {
 
    }
   readonly baseURL = 'https://localhost:44309/GetServices'
+  readonly deleteURL = 'https://localhost:44309/DeleteService?Id='
 
   getServices(){
-      return this.http.get(this.baseURL,{headers:this.reqHeaders});
+      return this.http.get(this.baseURL,{headers:new HttpHeaders({
+        'accept': 'text/plain',
+       'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+       
+     })});
+}
+deleteServices(serviceId){
+  return this.http.delete(this.deleteURL + serviceId,{headers:new HttpHeaders({
+    'accept': 'text/plain',
+   'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+   
+ })});
 }
 }

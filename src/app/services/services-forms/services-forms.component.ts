@@ -18,7 +18,7 @@ export class ServicesFormsComponent implements OnInit {
     this.service.putService().subscribe(
       res=>{
        console.log((<any>res).Message)
-
+       form.resetForm();
        this.router.navigate(['/servicesList']);
        
       },
