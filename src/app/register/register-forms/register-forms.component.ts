@@ -28,6 +28,7 @@ isAlertVisible: boolean = false;
           this.isAlertVisible = true;
         }
 
+        form.resetForm();
       },
     err=>{console.log(err);});
    

@@ -44,11 +44,13 @@ providerId : string;
       localStorage.setItem("jwt", token);
       this.invalidLogin = false;
       this.router.navigate(["/"]);
+      form.resetForm();
       this.logged_user = {isLogged : true, userName : this.userName, isProvider : this.isProvider, providerID : this.providerId}
       //this.store.dispatch(new StringActions.setName(this.userName));
       this.store.dispatch(new UserActions.isLogged(this.logged_user));
       //this.user$ = this.store.select('loggedUser')
       //this.store.dispatch(new UserActions.userName(userName));
+     
     }, err => {
       this.invalidLogin = true;
     });

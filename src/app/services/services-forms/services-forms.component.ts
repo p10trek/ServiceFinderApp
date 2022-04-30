@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class ServicesFormsComponent implements OnInit {
 
-  constructor(private router: Router, public service:ServicesService) { }
+  constructor(private router: Router,public service:ServicesService) { }
 
   ngOnInit(): void {
   }
@@ -19,7 +19,9 @@ export class ServicesFormsComponent implements OnInit {
     this.service.putService().subscribe(
       res=>{
        console.log((<any>res).Message)
+       form.resetForm();
        this.router.navigate(['/servicesList']);
+       
       },
     err=>{console.log(err);});
 
