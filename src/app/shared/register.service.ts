@@ -14,7 +14,7 @@ export class RegisterService {
   });
   user$ : Observable<User>;
   constructor(private http: HttpClient) { }
-  readonly baseURL = 'https://localhost:44309/CreateProvider'
+  readonly baseURL = 'https://20.23.253.113/api/CreateProvider'
   formData:Register =new Register();
   putProvider(){
       return this.http.put(this.baseURL,this.formData,{headers:this.reqHeaders});

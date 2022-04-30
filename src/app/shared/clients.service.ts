@@ -8,7 +8,7 @@ import { HttpClient } from "@angular/common/http";
 export class ClientsService {
 
   constructor(private http: HttpClient) { }
-  readonly baseURL = 'https://localhost:44309/CreateCustomer'
+  readonly baseURL = 'https://20.23.253.113/api/CreateCustomer'
   formData:Clients =new Clients();
   putClient(){
       return this.http.put(this.baseURL,this.formData);

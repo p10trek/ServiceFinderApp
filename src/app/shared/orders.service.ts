@@ -11,11 +11,11 @@ export class OrdersService {
  });
 
   constructor(private http : HttpClient) {}
-  readonly getProvURL = 'https://localhost:44309/GetProviderOrders'
-  readonly getFreeTermsURL = 'https://localhost:44309/GetFreeTerms'
-  readonly putOrderURL = 'https://localhost:44309/CreateOrder'
-  readonly deleteOrderURL = 'https://localhost:44309/DeleteOrder'
-  readonly MoveOrderURL = 'https://localhost:44309/MoveOrder'
+  readonly getProvURL = 'https://20.23.253.113/api/GetProviderOrders'
+  readonly getFreeTermsURL = 'https://20.23.253.113/api/GetFreeTerms'
+  readonly putOrderURL = 'https://20.23.253.113/api/CreateOrder'
+  readonly deleteOrderURL = 'https://20.23.253.113/api/DeleteOrder'
+  readonly MoveOrderURL = 'https://20.23.253.113/api/MoveOrder'
 
   getProviderOrders(providerId:string){
       let queryParams = new HttpParams();
@@ -51,7 +51,7 @@ export class OrdersService {
     return this.http.get(this.MoveOrderURL,{headers:this.reqHeaders, params: queryParams})
   }
   sendSms(userName:string,message:string){
-    var url = "https://localhost:44309/SendSms?userName=" + userName + "&message=" + message
+    var url = "https://20.23.253.113/api/SendSms?userName=" + userName + "&message=" + message
     return this.http.get(url)
   }
 }

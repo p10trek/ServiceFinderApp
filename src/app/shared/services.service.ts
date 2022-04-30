@@ -19,7 +19,7 @@ export class ServicesService {
   constructor(private http: HttpClient) {
 
    }
-  readonly baseURL = 'https://localhost:44309/CreateService'
+  readonly baseURL = 'https://20.23.253.113/api/CreateService'
   formData:Services =new Services();
   putService(){
       return this.http.put(this.baseURL,this.formData,{headers:this.reqHeaders});

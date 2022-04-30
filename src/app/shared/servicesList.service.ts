@@ -19,7 +19,7 @@ export class ServicesServiceList {
   constructor(private http: HttpClient) {
 
    }
-  readonly baseURL = 'https://localhost:44309/GetServices'
+  readonly baseURL = 'https://20.23.253.113/api/GetServices'
 
   getServices(){
       return this.http.get(this.baseURL,{headers:this.reqHeaders});

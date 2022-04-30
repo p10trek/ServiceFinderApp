@@ -1,0 +1,1 @@
+{"ast":null,"code":"//import { User } from 'src/app/user';\nexport const SET_NAME = '[userName] setString';\nexport class setName {\n  constructor(payload) {\n    this.payload = payload;\n    this.type = SET_NAME;\n    console.log(\"Payload string: \" + payload);\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

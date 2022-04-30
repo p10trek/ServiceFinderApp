@@ -17,9 +17,9 @@ export class ProfileService {
 
   user$: Observable<User>;
   constructor(private http: HttpClient, private store: Store<AppState>) { }
-  readonly GetProviderURL = 'https://localhost:44309/GetProfile'
-  readonly EditProviderURL = 'https://localhost:44309/EditProvider'
-  readonly EditUserURL = 'https://localhost:44309/EditUser'
+  readonly GetProviderURL = 'https://20.23.253.113/api/GetProfile'
+  readonly EditProviderURL = 'https://20.23.253.113/api/EditProvider'
+  readonly EditUserURL = 'https://20.23.253.113/api/EditUser'
   formData: Profile = new Profile();
 
   getProfile() {

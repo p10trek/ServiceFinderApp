@@ -18,8 +18,8 @@ export class HomeService {
   constructor(private http: HttpClient) {
 
    }
-  readonly baseURL = 'https://localhost:44309/GetProviders'
-  readonly getProvidersURL = 'https://localhost:44309/GetProviderServices'
+  readonly baseURL = 'https://20.23.253.113/api/GetProviders'
+  readonly getProvidersURL = 'https://20.23.253.113/api/GetProviderServices'
  getProviders(){
       return this.http.get(this.baseURL,{headers:this.reqHeaders});
 }
