@@ -11,6 +11,7 @@ import { RegisterService } from 'src/app/shared/register.service';
 
 export class RegisterFormsComponent implements OnInit {
 isChecked : boolean = false
+isAlertVisible: boolean = false;
   constructor(private router: Router,public service:RegisterService) { }
 
   ngOnInit(): void {
@@ -19,8 +20,17 @@ isChecked : boolean = false
     this.service.putProvider().subscribe(
       res=>{
 
+        if((<any>res).success){
+          this.isAlertVisible = false;
+          this.router.navigate(['/login']);
+        }
+        else{
+          this.isAlertVisible = true;
+        }
+
       },
     err=>{console.log(err);});
+   
   }
   
   checking(e){
