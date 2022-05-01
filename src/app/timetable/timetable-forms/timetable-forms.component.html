@@ -70,6 +70,10 @@
     </div>
     <div class="modal-body">
         <div class="container">
+            <div class="form-group">
+                <label>Client name {{serviceClientName}}</label><br>
+                <label>Client Phone {{serviceClientPhone}}</label>
+            </div>
             <form action="/action_page.php">
                 <label for="ServiceTime">Change date of service start</label><br>
                 <input type="datetime-local" id="ServiceTime" name="ServiceTime" [(ngModel)]="serviceTime">

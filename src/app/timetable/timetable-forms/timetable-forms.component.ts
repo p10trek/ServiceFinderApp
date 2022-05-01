@@ -117,6 +117,8 @@ export class TimetableFormsComponent implements OnInit {
      user$ : Observable<User>;
      events: CalendarSchedulerEvent[];
      serviceIdToMove : string;
+     serviceClientPhone : string;
+     serviceClientName : string;
     @ViewChild(CalendarSchedulerViewComponent)  calendarScheduler: CalendarSchedulerViewComponent;
      datepipe: any;
 
@@ -266,6 +268,8 @@ export class TimetableFormsComponent implements OnInit {
     DescriptionArea: string;        
     UTCoffset : number = +2;
     SaveChanges(e){
+        if(confirm("Are you sure move this order?")) 
+        {
         console.log(this.serviceTime)
         let tempDate = new Date(this.serviceTime);
         let strDate = (moment(tempDate)).format('YYYY-MM-DD HH:mm:ss')
@@ -293,6 +297,7 @@ export class TimetableFormsComponent implements OnInit {
         
             moveOrder.toPromise().then(x=> new Promise(resolve => setTimeout(() => resolve(this.appService.getEvents(this.actions)
             .then((events: CalendarSchedulerEvent[]) => this.events = events)), 1)));
+        }
     }
                   
 
@@ -310,69 +315,73 @@ export class TimetableFormsComponent implements OnInit {
     }
 
      segmentClicked(action: string, segment: SchedulerViewHourSegment): void {
-        console.log("Hello segment!!!");
-        var isProvider = false;
-        this.user$.subscribe(u=>isProvider = u.isProvider);
-        var durationSum = 0;
-        this.serviceTime = segment.date;
-        if(isProvider == false)
+        if(confirm("Are you sure want to add new order?")) 
         {
-            var providerId = '';
-            this.cart$ = this.store.select('cart');
-            this.cart$.subscribe(r=>providerId = r.provider)
-            var items : CartItem[] = [];
-            this.cart$.subscribe(r=>items = r.cartItems)
-            
-            for(let item of items)
-            {//todo:pobierac czas z item po dodaniu
+            console.log("Hello segment!!!");
+            var isProvider = false;
+            this.user$.subscribe(u=>isProvider = u.isProvider);
+            var durationSum = 0;
+            this.serviceTime = segment.date;
+            if(isProvider == false)
+            {
+                var providerId = '';
+                this.cart$ = this.store.select('cart');
+                this.cart$.subscribe(r=>providerId = r.provider)
+                var items : CartItem[] = [];
+                this.cart$.subscribe(r=>items = r.cartItems)
                 
-                let formattedDate = (moment(segment.date)).format('YYYY-MM-DD HH:mm:ss')
-                
-                let startDate = new Date(formattedDate);
-                let tempStartDate = new Date(formattedDate);
-                tempStartDate.setHours(startDate.getHours()+durationSum+this.UTCoffset);
-                let endDate = new Date(formattedDate)
-                endDate.setHours(startDate.getHours()+durationSum+item.duration+this.UTCoffset);
-                
-                let order = new Order;
-                order.providerId = providerId;
-                order.startDate = tempStartDate;
-                order.endDate = endDate
-                order.serviceId = item.cartItem;
-                this.service.putOrder(order) 
-                .subscribe(
-                    res=>
-                    {
-                        console.log('Service succesfully added');
-                        console.log((<any>res).message)
-                    });
-                durationSum += item.duration;
+                for(let item of items)
+                {//todo:pobierac czas z item po dodaniu
+                    
+                    let formattedDate = (moment(segment.date)).format('YYYY-MM-DD HH:mm:ss')
+                    
+                    let startDate = new Date(formattedDate);
+                    let tempStartDate = new Date(formattedDate);
+                    tempStartDate.setHours(startDate.getHours()+durationSum+this.UTCoffset);
+                    let endDate = new Date(formattedDate)
+                    endDate.setHours(startDate.getHours()+durationSum+item.duration+this.UTCoffset);
+                    
+                    let order = new Order;
+                    order.providerId = providerId;
+                    order.startDate = tempStartDate;
+                    order.endDate = endDate
+                    order.serviceId = item.cartItem;
+                    this.service.putOrder(order) 
+                    .subscribe(
+                        res=>
+                        {
+                            console.log('Service succesfully added');
+                            console.log((<any>res).message)
+                        });
+                    durationSum += item.duration;
+                }
+
+                this.store.dispatch(new CartActions.resetCart())
+                document.getElementById("closeModalButton2")!.click();
+                document.getElementById("closeModalButton1")!.click();
+                this.cart$ = this.store.select('cart');
+                var cartItems : CartItem[] = [];
+                this.cart$.subscribe(r=> cartItems = r.cartItems);
+                console.log('zawartosc koszyka powinna byc pusta')
+                console.log(cartItems)
+                // console.log('zdarzenie zacznie sie:'+ segment.date);
+                // console.log('segmentClicked Action', action);
+                // console.log('segmentClicked Segment', segment);
             }
+            else{
+                
 
-            this.store.dispatch(new CartActions.resetCart())
-            document.getElementById("closeModalButton2")!.click();
-            document.getElementById("closeModalButton1")!.click();
-            this.cart$ = this.store.select('cart');
-            var cartItems : CartItem[] = [];
-            this.cart$.subscribe(r=> cartItems = r.cartItems);
-            console.log('zawartosc koszyka powinna byc pusta')
-            console.log(cartItems)
-            // console.log('zdarzenie zacznie sie:'+ segment.date);
-            // console.log('segmentClicked Action', action);
-            // console.log('segmentClicked Segment', segment);
-        }
-        else{
+                this.modalService.open(this.NewService);
             
-
-            this.modalService.open(this.NewService);
-           
-           
-           
+            
+            
+            }
         }
-
     }
 
     addOrderByProvider(e){
+        if(confirm("Are you sure want to add new order?")) 
+        {
         var providerID = ''
         this.user$.subscribe(r=>providerID = r.providerID)
         console.log('provider is:'+providerID)
@@ -404,11 +413,16 @@ export class TimetableFormsComponent implements OnInit {
   
             putOrder.toPromise().then(x=> new Promise(resolve => setTimeout(() => resolve(this.appService.getEvents(this.actions)
             .then((events: CalendarSchedulerEvent[]) => this.events = events)), 1)));
+        }
     }
 
      eventClicked(action: string, event: CalendarSchedulerEvent): void {
         console.log('eventClicked Action', action);
         console.log('eventClicked Event', event);
+        this.service.GetClientData(event.id).subscribe(res=>{
+            this.serviceClientName = (<any>res).data.clientName
+            this.serviceClientPhone = (<any>res).data.clientPhone
+        })
         this.modalService.open(this.MoveService);
         this.serviceIdToMove = event.id;
     }

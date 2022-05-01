@@ -16,6 +16,7 @@ export class OrdersService {
   readonly putOrderURL = 'https://20.23.253.113/api/CreateOrder'
   readonly deleteOrderURL = 'https://20.23.253.113/api/DeleteOrder'
   readonly MoveOrderURL = 'https://20.23.253.113/api/MoveOrder'
+  readonly GetClientDataURL = 'https://20.23.253.113/api/GetClientData'
 
   getProviderOrders(providerId:string){
       let queryParams = new HttpParams();
@@ -37,6 +38,11 @@ export class OrdersService {
       'Authorization': `Bearer ${localStorage.getItem("jwt")}`
     })})
     return result;
+  }
+  GetClientData(orderId:string){
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("orderId",orderId);
+    return this.http.get(this.GetClientDataURL,{headers:this.reqHeaders, params:queryParams});
   }
   deleteOrder(orderId:string){
     let queryParams = new HttpParams();

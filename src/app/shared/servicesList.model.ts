@@ -10,5 +10,6 @@ export class ServicesList{
     price: number
     description: string
     serviceType: string
+    duration : number
   }
   

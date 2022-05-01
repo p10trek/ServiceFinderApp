@@ -31,7 +31,7 @@
     </div>
   <div class="modal-body">
     <div class="container">
-      <table class="table table-striped table-responsive-lg btn-table">
+      <table *ngIf="user$ | async as u" class="table table-striped table-responsive-lg btn-table">
         <thead>
           <tr>
             <th>
@@ -43,7 +43,7 @@
             <th>
               Cost
             </th>
-            <th>
+            <th *ngIf="!u.isProvider">
               Reserv
             </th>
           </tr>
@@ -58,7 +58,7 @@
             <td *ngIf="service.isPriced==true"><span>{{service.price}}</span></td>
             <td>
 
-              <input type="checkbox" name="{{[i]}}" id="{{[i]}}" (change)="addToCart($event,service.id,service.duration)">
+              <input type="checkbox" *ngIf="!u.isProvider" name="{{[i]}}" id="{{[i]}}" (change)="addToCart($event,service.id,service.duration)">
 
             </td>
           </tr>
@@ -66,8 +66,8 @@
       </table>
     </div>
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="openTimeTable($event)">Save</button>
+  <div class="modal-footer" *ngIf="user$ | async as u" >
+    <button *ngIf="!u.isProvider"  type="button" class="btn btn-outline-dark" (click)="openTimeTable($event)">Save</button>
   </div>
 
 </ng-template>

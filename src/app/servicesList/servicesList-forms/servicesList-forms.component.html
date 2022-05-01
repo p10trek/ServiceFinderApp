@@ -3,6 +3,7 @@
         <button class="btn btn-info btn-lg" type="submit">SUBMIT</button>
     </div> -->
     <div class="container">
+    <h4>Click to delete service</h4>
     <table class="table table-striped table-responsive-md btn-table">
         <thead>
             <tr>
@@ -12,12 +13,20 @@
                 <th>
                     Description
                 </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Duration
+                </th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let service of servicesList"  (click)="eraseService(service.id)">
                 <td><span>{{service.serviceName}}</span></td>
                 <td><span>{{service.description}}</span></td>
+                <td><span>{{service.price}}</span></td>
+                <td><span>{{service.duration}}</span></td>
             </tr>
         </tbody>
     </table>
