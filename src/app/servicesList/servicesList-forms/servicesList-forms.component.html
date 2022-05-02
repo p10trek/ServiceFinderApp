@@ -17,7 +17,7 @@
                     Price
                 </th>
                 <th>
-                    Duration
+                    Duration[h]
                 </th>
             </tr>
         </thead>
@@ -25,7 +25,8 @@
             <tr *ngFor="let service of servicesList"  (click)="eraseService(service.id)">
                 <td><span>{{service.serviceName}}</span></td>
                 <td><span>{{service.description}}</span></td>
-                <td><span>{{service.price}}</span></td>
+                <td *ngIf="service.price==0"><span>For valuation</span></td>
+                <td *ngIf="service.price>0"><span>{{service.price}}</span></td>
                 <td><span>{{service.duration}}</span></td>
             </tr>
         </tbody>

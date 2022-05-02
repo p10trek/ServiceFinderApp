@@ -28,8 +28,8 @@ interface CartState{
 export class HomeComponent implements OnInit {
   @ViewChild('content') content: any;
   @ViewChild('timeTable') timeTable: any;
-  latitude = 51.1915270197085;
-  longitude = 15.2995830197085;
+  latitude = 50.6633220000000000;
+  longitude = 15.5549607000000000;
   remButton: HTMLElement;
   constructor(@Inject(DOCUMENT) document,private store: Store<CartState>, private Userstore:Store<AppState>,private router: Router, private jwtHelper: JwtHelperService,config: NgbModalConfig, private modalService: NgbModal,public service:HomeService) { 
   config.backdrop = 'static';
